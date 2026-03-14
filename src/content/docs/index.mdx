@@ -1,0 +1,53 @@
+---
+title: si Documentation
+description: Canonical docs for SI CLI runtime, integrations, and release workflows.
+---
+
+# si Documentation
+
+SI is an operations-first CLI that combines secure secrets, integration bridges, agent runtime controls, browser MCP execution, and release workflows.
+
+## Start here
+
+1. Install SI:
+   - npm: `npm install -g @aureuma/si`
+   - Homebrew: `brew install aureuma/si/si`
+2. Build and verify your local binary from source when needed: `si build self`
+3. Validate secret setup: `si vault status`
+4. Inspect command surface: `si --help`
+5. Validate docs before publishing changes: `si mintlify validate`
+
+## Documentation entry points
+
+### Commands and tooling
+
+- [CLI Reference](./CLI_REFERENCE)
+- [Command Reference](./COMMAND_REFERENCE)
+- [Vault](./VAULT)
+- [Dyad](./DYAD)
+- [Browser Runtime](./BROWSER)
+- [Orbits](./ORBITALS)
+- [Settings](./SETTINGS)
+
+### Integrations
+
+- [Integrations Overview](./INTEGRATIONS_OVERVIEW)
+- [Providers Telemetry Guide](./PROVIDERS)
+- [GitHub](./GITHUB), [Cloudflare](./CLOUDFLARE), [GCP](./GCP), [AWS](./AWS), [OpenAI](./OPENAI), [OCI](./OCI)
+- [Google Places](./GOOGLE_PLACES), [Google Play](./GOOGLE_PLAY), [Google YouTube](./GOOGLE_YOUTUBE)
+- [Stripe](./STRIPE), [Social](./SOCIAL), [WorkOS](./WORKOS), [Apple App Store](./APPLE_APPSTORE), [Publish](./PUBLISH)
+
+### Docs and release
+
+- [Documentation Style Guide](./DOCS_STYLE_GUIDE)
+- [Releasing](./RELEASING)
+- [Release Runbook](./RELEASE_RUNBOOK)
+- [Homebrew Core Readiness](./HOMEBREW_CORE)
+- [Testing](./testing)
+
+## Best-practice workflow for docs updates
+
+1. Update or add the relevant page.
+2. Update `docs.json` navigation at the same time.
+3. Run `si mintlify validate`.
+4. Run `si mintlify broken-links` before publishing.

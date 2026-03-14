@@ -1,0 +1,91 @@
+---
+title: CLI Reference
+description: Practical SI CLI orientation with command discovery, top-level families, and high-signal workflows.
+---
+
+# CLI Reference
+
+This page is the fast orientation guide for `si`.
+
+For a full categorized list, use [Command Reference](./COMMAND_REFERENCE).
+
+## Command discovery pattern
+
+```bash
+si --help
+si <command> --help
+si <command> <subcommand> --help
+```
+
+## Top-level command families
+
+| Domain | Commands |
+| --- | --- |
+| Runtime and orchestration | `si dyad`, codex lifecycle (`si spawn`, `si run`, `si status`, `si report`) |
+| Secrets and context | `si vault` (`si creds`), `si fort` |
+| Integration bridges | `si github`, `si cloudflare`, `si gcp`, `si aws`, `si openai`, `si oci`, `si google`, `si social`, `si workos`, `si apple appstore`, `si stripe`, `si publish`, `si releasemind` (`si release`) |
+| Provider telemetry | `si providers` |
+| Surf browser runtime | `si surf` |
+| Orbit ecosystem | `si orbits` |
+| Build and quality | `si build`, `si analyze` (`si lint`), `si docker` |
+| Docs workflow | `si mintlify` |
+| Profiles and skills | `si persona`, `si skill` |
+
+## High-signal workflows
+
+### Runtime setup
+
+```bash
+si build image
+si dyad spawn app-hardening --profile main
+si dyad status app-hardening
+```
+
+### Viva tunnel via SI wrapper
+
+```bash
+si viva config set --repo ~/Development/viva --build true
+si viva config tunnel show --json
+si viva -- tunnel up --profile dev
+si viva -- tunnel status --profile dev
+si viva -- tunnel down --profile dev
+```
+
+### Integration readiness
+
+```bash
+si providers characteristics --json
+si github doctor --json
+si cloudflare doctor --json
+si gcp doctor --json
+```
+
+### Fort runtime secret check
+
+```bash
+si fort doctor
+si fort get --repo releasemind --env dev --key RM_OPENAI_API_KEY
+```
+
+### Docs quality
+
+```bash
+si mintlify validate
+si mintlify broken-links
+```
+
+### Release preflight
+
+```bash
+si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-preflight
+```
+
+## Safety guidance
+
+- On host/admin flows, use `si vault run -- <command>` when secrets are required.
+- In SI runtime containers, use `si fort ...` for secret access.
+- `si fort` wrapper bootstrap/admin auth resolves from `FORT_BOOTSTRAP_TOKEN_FILE`; runtime sessions use `FORT_TOKEN_PATH` + `FORT_REFRESH_TOKEN_PATH`.
+- If a flag belongs to the native `fort` CLI, pass it after `--` (example: `si fort -- --host https://fort.aureuma.ai doctor`).
+- Prefer `--json` for automation and auditability.
+- Run `doctor` commands before mutating production systems.
+- Keep docs and `docs.json` navigation in sync.

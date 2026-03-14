@@ -63,6 +63,12 @@ function slugify(input: string): string {
 		.replace(/^-+|-+$/g, '');
 }
 
+function slugFromContentPath(path: string): string | null {
+	const normalized = path.replace(/\\/g, '/');
+	const match = normalized.match(/\/src\/content\/docs\/(.+?)\.(md|mdx)(?:\?.*)?$/i);
+	return match?.[1] ?? null;
+}
+
 const fmtLong = new Intl.DateTimeFormat('en-US', {
 	month: 'long',
 	day: 'numeric',
@@ -108,8 +114,7 @@ export function createDocs(config: DocsCreateConfig) {
 
 		const map = new Map<string, string>();
 		for (const path of Object.keys(config.rawModules).sort()) {
-			const file = path.split('/').pop();
-			const slug = file?.replace(/\.md(?:\?.*)?$/, '');
+			const slug = slugFromContentPath(path);
 			if (!slug) continue;
 			map.set(slug, path);
 		}
@@ -125,8 +130,7 @@ export function createDocs(config: DocsCreateConfig) {
 		const paths = Object.keys(config.rawModules).sort();
 
 		for (const path of paths) {
-			const file = path.split('/').pop();
-			const slug = file?.replace(/\.md(?:\?.*)?$/, '');
+			const slug = slugFromContentPath(path);
 			if (!slug) continue;
 
 			const rawFn = config.rawModules[path];
@@ -265,8 +269,7 @@ export function createRawDocs(config: RawDocsCreateConfig) {
 		const paths = Object.keys(config.rawModules).sort();
 
 		for (const path of paths) {
-			const file = path.split('/').pop();
-			const slug = file?.replace(/\.md(?:\?.*)?$/, '');
+			const slug = slugFromContentPath(path);
 			if (!slug) continue;
 
 			const rawFn = config.rawModules[path];

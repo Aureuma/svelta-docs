@@ -109,7 +109,7 @@ function remarkAdmonitionBlocks() {
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexConfig = {
-	extensions: ['.md'],
+	extensions: ['.md', '.mdx'],
 	frontmatter: {
 		marker: '-',
 		type: 'yaml',
@@ -143,7 +143,7 @@ const mdsvexConfig = {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	extensions: ['.svelte', '.md'],
+	extensions: ['.svelte', '.md', '.mdx'],
 	preprocess: [mdsvex(mdsvexConfig), vitePreprocess()],
 	kit: {
 		alias: {
