@@ -72,8 +72,8 @@
 
 <Command.Dialog
   bind:open={searchOpen}
-  title="Search documentation"
-  description="Jump to any Aureuma docs page"
+  title={docsPattern.search.dialogTitle}
+  description={docsPattern.search.dialogDescription}
   class="max-h-[72vh]"
   data-testid="docs-command-dialog"
 >
@@ -99,30 +99,30 @@
   </Command.List>
 </Command.Dialog>
 
-<div class="min-h-dvh bg-[radial-gradient(circle_at_top,_rgba(139,240,201,0.16),_transparent_30%),linear-gradient(180deg,_rgba(255,255,255,0.98),_rgba(248,250,249,1))] text-text-main dark:bg-[radial-gradient(circle_at_top,_rgba(15,109,95,0.28),_transparent_24%),linear-gradient(180deg,_rgba(12,14,15,1),_rgba(10,13,13,1))]">
-  <header class="sticky top-0 z-50 border-b border-border-soft/10 bg-background-main/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background-main/70">
+<div class="min-h-dvh bg-[radial-gradient(circle_at_top,_rgba(139,240,201,0.14),_transparent_26%),linear-gradient(180deg,_rgba(255,255,255,0.98),_rgba(248,250,249,1))] text-text-main dark:bg-[radial-gradient(circle_at_top,_rgba(15,109,95,0.24),_transparent_20%),linear-gradient(180deg,_rgba(12,14,15,1),_rgba(10,13,13,1))]">
+  <header class="sticky top-0 z-50 border-b border-border-soft/10 bg-background-main/78 shadow-[0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-xl supports-[backdrop-filter]:bg-background-main/66">
     <div class="mx-auto flex h-16 w-full max-w-[1600px] items-center gap-4 px-4 lg:px-8">
       <div class="flex min-w-0 flex-1 items-center gap-4">
         <Sheet.Root>
           <Sheet.Trigger class="inline-flex size-10 items-center justify-center rounded-2xl border border-border-soft/10 bg-background-soft text-text-main lg:hidden">
             <PanelLeftIcon class="size-4" />
-            <span class="sr-only">Open navigation</span>
+            <span class="sr-only">{docsPattern.chrome.mobileNavigationLabel}</span>
           </Sheet.Trigger>
           <Sheet.Content side="left" class="w-[92vw] max-w-sm border-border-soft/10 bg-background-main/95 p-0" data-testid="docs-mobile-nav-panel">
             <div class="border-b border-border-soft/10 px-5 py-4">
               <a href="/docs" class="inline-flex items-center gap-3">
-                <img class="h-8 w-auto dark:hidden" src={data.navigation.logo.light} alt="Aureuma logo" />
-                <img class="hidden h-8 w-auto dark:block" src={data.navigation.logo.dark} alt="Aureuma logo" />
+                <img class="h-8 w-auto dark:hidden" src={data.navigation.logo.light} alt={`${docsPattern.brandName} logo`} />
+                <img class="hidden h-8 w-auto dark:block" src={data.navigation.logo.dark} alt={`${docsPattern.brandName} logo`} />
                 <div>
-                  <p class="text-sm font-semibold tracking-tight">{data.navigation.name}</p>
-                  <p class="text-xs text-text-muted">Documentation</p>
+                  <p class="text-sm font-semibold tracking-tight">{docsPattern.branding.title}</p>
+                  <p class="text-xs text-text-muted">{docsPattern.branding.subtitle}</p>
                 </div>
               </a>
             </div>
             <div class="space-y-8 overflow-y-auto px-5 py-5">
-              {#each data.navigation.tabs as tab (tab.id)}
-                <section>
-                  <a href={firstPageHref(tab)} class="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">{tab.label}</a>
+            {#each data.navigation.tabs as tab (tab.id)}
+              <section>
+                <a href={firstPageHref(tab)} class="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">{tab.label}</a>
                   <div class="mt-4 space-y-5">
                     {#each tab.groups as group (group.id)}
                       <div>
@@ -151,27 +151,29 @@
         </Sheet.Root>
 
         <a href="/docs" class="inline-flex min-w-0 items-center gap-3">
-          <img class="h-8 w-auto object-contain dark:hidden" src={data.navigation.logo.light} alt="Aureuma logo" />
-          <img class="hidden h-8 w-auto object-contain dark:block" src={data.navigation.logo.dark} alt="Aureuma logo" />
+          <img class="h-8 w-auto object-contain dark:hidden" src={data.navigation.logo.light} alt={`${docsPattern.brandName} logo`} />
+          <img class="hidden h-8 w-auto object-contain dark:block" src={data.navigation.logo.dark} alt={`${docsPattern.brandName} logo`} />
           <div class="hidden min-w-0 sm:block">
-            <p class="truncate text-sm font-semibold tracking-tight">{data.navigation.name}</p>
-            <p class="truncate text-xs text-text-muted">Documentation</p>
+            <p class="truncate text-sm font-semibold tracking-tight">{docsPattern.branding.title}</p>
+            <p class="truncate text-xs text-text-muted">{docsPattern.branding.subtitle}</p>
           </div>
         </a>
       </div>
 
-      <button
-        type="button"
-        class="hidden h-10 min-w-[280px] items-center justify-between rounded-2xl border border-border-soft/10 bg-background-soft px-3 text-sm text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:inline-flex"
-        data-testid="docs-search-trigger"
-        onclick={() => (searchOpen = true)}
-      >
-        <span class="inline-flex items-center gap-2">
-          <SearchIcon class="size-4" />
-          {docsPattern.search.placeholder}
-        </span>
-        <span class="rounded-lg border border-border-soft/10 px-2 py-1 text-[11px] font-medium text-text-muted">⌘K</span>
-      </button>
+      {#if docsPattern.search.enabled}
+        <button
+          type="button"
+          class="hidden h-10 min-w-[300px] items-center justify-between rounded-2xl border border-border-soft/10 bg-background-soft/80 px-3 text-sm text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:inline-flex"
+          data-testid="docs-search-trigger"
+          onclick={() => (searchOpen = true)}
+        >
+          <span class="inline-flex items-center gap-2">
+            <SearchIcon class="size-4" />
+            {docsPattern.search.placeholder}
+          </span>
+          <span class="rounded-lg border border-border-soft/10 px-2 py-1 text-[11px] font-medium text-text-muted">{docsPattern.search.shortcut}</span>
+        </button>
+      {/if}
 
       <div class="ml-auto flex items-center gap-1 sm:gap-2">
         {#each data.navigation.anchors as anchor (anchor.href)}
@@ -189,7 +191,7 @@
         <button
           type="button"
           class="inline-flex size-10 items-center justify-center rounded-2xl border border-border-soft/10 bg-background-soft text-text-sub transition hover:border-emerald-500/20 hover:text-text-main"
-          aria-label="Toggle color mode"
+          aria-label={docsPattern.chrome.colorModeLabel}
           onclick={cycleAppearance}
         >
           {#if currentAppearance === 'dark'}
@@ -232,7 +234,7 @@
                         href={getDocsHrefForSlug(item.slug)}
                         class="block rounded-2xl px-3 py-2.5 text-sm leading-6 transition {currentSlug === item.slug
                           ? 'bg-emerald-500/10 font-medium text-emerald-700 shadow-[inset_0_0_0_1px_rgba(16,185,129,0.12)] dark:text-emerald-300'
-                          : 'text-text-sub hover:bg-background-soft hover:text-text-main'}"
+                          : 'text-text-sub hover:bg-background-soft/80 hover:text-text-main'}"
                       >
                         {item.navTitle}
                       </a>

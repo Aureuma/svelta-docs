@@ -50,12 +50,12 @@
   <link rel="canonical" href={data.canonicalUrl} />
 </svelte:head>
 
-<div class="grid min-w-0 grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_240px] xl:gap-12">
+<div class="grid min-w-0 grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_220px] xl:gap-12">
   <article class="min-w-0 max-w-3xl" data-testid="docs-article-page">
     <Breadcrumb.Root class="mb-4">
       <Breadcrumb.List>
         <Breadcrumb.Item>
-          <Breadcrumb.Link href="/docs">Docs</Breadcrumb.Link>
+          <Breadcrumb.Link href="/docs">{docsPattern.chrome.docsRootLabel}</Breadcrumb.Link>
         </Breadcrumb.Item>
         <Breadcrumb.Separator />
         <Breadcrumb.Item>
@@ -68,7 +68,7 @@
       </Breadcrumb.List>
     </Breadcrumb.Root>
 
-    <header class="mb-8">
+    <header class="mb-10">
       <div class="flex flex-wrap items-center gap-2">
         <Badge variant="outline" class="rounded-full border-emerald-500/20 bg-emerald-500/8 text-emerald-700 dark:text-emerald-300">
           {currentGroupLabel}
@@ -78,7 +78,7 @@
         {/if}
       </div>
 
-      <h1 class="mt-4 text-4xl font-semibold tracking-[-0.04em] text-text-main sm:text-[2.75rem] sm:leading-[1.05]">
+      <h1 class="mt-4 text-4xl font-semibold tracking-[-0.045em] text-text-main sm:text-[2.9rem] sm:leading-[1.02]">
         {data.page.title}
       </h1>
       {#if data.page.description}
@@ -89,23 +89,21 @@
         <Button variant="outline" size="sm" class="rounded-full" onclick={copyCanonicalUrl}>
           {#if copied}
             <CheckIcon class="size-4" />
-            Copied
+            {docsPattern.chrome.copiedPageLabel}
           {:else}
             <LinkIcon class="size-4" />
-            Copy page link
+            {docsPattern.chrome.copyPageLabel}
           {/if}
         </Button>
         <Button href={data.sourceUrl} target="_blank" rel="noreferrer" variant="outline" size="sm" class="rounded-full">
           <SquarePenIcon class="size-4" />
-          Edit this page
+          {docsPattern.chrome.editPageLabel}
         </Button>
       </div>
     </header>
 
-    <div class="rounded-[28px] border border-border-soft/10 bg-background-soft/55 px-6 py-8 shadow-[0_1px_0_rgba(255,255,255,0.05)_inset] sm:px-8 lg:px-10">
-      <div class="docs-prose mintlify-prose prose max-w-none" data-testid="docs-article">
-        {@html data.contentHtml}
-      </div>
+    <div class="docs-prose mintlify-prose prose max-w-none" data-testid="docs-article">
+      {@html data.contentHtml}
     </div>
 
     {#if docsPattern.feedback.enabled}
@@ -121,7 +119,7 @@
       >
         <div class="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-text-muted">
           <ChevronLeftIcon class="size-4" />
-          Previous
+          {docsPattern.chrome.previousPageLabel}
         </div>
         <p class="mt-3 text-sm font-medium text-text-main">{data.adjacent.previous?.navTitle || 'None'}</p>
       </a>
@@ -131,7 +129,7 @@
         class="group rounded-3xl border border-border-soft/10 bg-background-soft/55 p-5 text-left transition hover:border-emerald-500/25 hover:bg-background-soft {data.adjacent.next ? '' : 'pointer-events-none opacity-40'}"
       >
         <div class="flex items-center justify-end gap-2 text-xs font-medium uppercase tracking-[0.16em] text-text-muted">
-          Next
+          {docsPattern.chrome.nextPageLabel}
           <ChevronRightIcon class="size-4" />
         </div>
         <p class="mt-3 text-sm font-medium text-text-main">{data.adjacent.next?.navTitle || 'None'}</p>
