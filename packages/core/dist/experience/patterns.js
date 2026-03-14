@@ -1,15 +1,15 @@
 export const DEFAULT_DOCS_PATTERN_CONFIG = {
     kind: 'docs',
-    brandName: 'svelta',
+    brandName: 'svelta-docs',
     productName: 'Documentation',
     title: 'Structured docs with first-class markdown ergonomics.',
-    description: 'Ship Mintlify-style docs UX with sectioned navigation, command-palette search, right-rail table of contents, and content feedback loops.',
+    description: 'Ship a dedicated docs UX with section navigation, command-palette search, right-rail table of contents, and content feedback loops.',
     defaultSectionLabel: 'Guides',
     sectionOrder: ['overview', 'getting-started', 'guides', 'api', 'reference'],
     navigation: {
         header: [
             { label: 'Docs', href: '/docs' },
-            { label: 'Blog', href: '/blog' }
+            { label: 'Overview', href: '/docs/overview' }
         ],
         footer: [
             { label: 'Overview', href: '/docs/overview' },
@@ -29,27 +29,7 @@ export const DEFAULT_DOCS_PATTERN_CONFIG = {
         enabled: true,
         prompt: 'Was this page helpful?'
     },
-    editLinkTemplate: 'https://github.com/Aureuma/svelta/blob/main/src/content/docs/:slug.md'
-};
-export const DEFAULT_BLOG_PATTERN_CONFIG = {
-    kind: 'blog',
-    brandName: 'svelta',
-    title: 'Editorial publishing with modern feed ergonomics.',
-    description: 'Publish markdown-driven updates with in-feed tag filtering, continuous infinite loading, author attribution, and RSS delivery.',
-    pageSize: 8,
-    maxPageSize: 24,
-    showRss: true,
-    navigation: {
-        header: [
-            { label: 'Blog', href: '/blog' },
-            { label: 'Archive', href: '/blog/archive' }
-        ],
-        footer: [
-            { label: 'All posts', href: '/blog' },
-            { label: 'Authors', href: '/blog/authors' },
-            { label: 'RSS', href: '/feed.xml' }
-        ]
-    }
+    editLinkTemplate: 'https://github.com/Aureuma/svelta-docs/blob/main/src/content/docs/:slug.md'
 };
 export function createDocsPatternConfig(overrides) {
     return {
@@ -72,23 +52,6 @@ export function createDocsPatternConfig(overrides) {
             ...DEFAULT_DOCS_PATTERN_CONFIG.feedback,
             ...(overrides?.feedback ?? {})
         }
-    };
-}
-export function createBlogPatternConfig(overrides) {
-    return {
-        ...DEFAULT_BLOG_PATTERN_CONFIG,
-        ...overrides,
-        kind: 'blog',
-        navigation: {
-            ...DEFAULT_BLOG_PATTERN_CONFIG.navigation,
-            ...(overrides?.navigation ?? {})
-        }
-    };
-}
-export function createSveltaPatternConfig(overrides) {
-    return {
-        docs: createDocsPatternConfig(overrides?.docs),
-        blog: createBlogPatternConfig(overrides?.blog)
     };
 }
 export function resolveDocsEditUrl(config, slug) {

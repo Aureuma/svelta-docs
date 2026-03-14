@@ -1,17 +1,16 @@
 import {
-	APPEARANCE_PALETTES,
-	DEFAULT_APPEARANCE_PALETTE,
-	createAppearanceController,
-	type AppearanceController,
-	type AppearanceMode,
-	type AppearancePaletteId
-} from '@aureuma/svelta/appearance';
+  APPEARANCE_PALETTES,
+  DEFAULT_APPEARANCE_PALETTE,
+  createAppearanceController,
+  type AppearanceController,
+  type AppearanceMode,
+  type AppearancePaletteId
+} from '@aureuma/svelta-docs/appearance';
 
-// Keep the storage key stable for this app (also used in `src/app.html`).
 export const appearance: AppearanceController = createAppearanceController({
-	storageKey: 'svelta-appearance',
-	paletteStorageKey: 'svelta-appearance-palette',
-	defaultPalette: DEFAULT_APPEARANCE_PALETTE
+  storageKey: 'svelta-docs-appearance',
+  paletteStorageKey: 'svelta-docs-appearance-palette',
+  defaultPalette: DEFAULT_APPEARANCE_PALETTE
 });
 
 export const appearancePalettes = APPEARANCE_PALETTES;

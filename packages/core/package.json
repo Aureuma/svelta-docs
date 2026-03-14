@@ -1,6 +1,6 @@
 {
-  "name": "@aureuma/svelta-core",
-  "version": "0.1.1",
+  "name": "@aureuma/svelta-docs-core",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "files": [
@@ -35,19 +35,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Aureuma/svelta.git",
+    "url": "git+ssh://git@github.com/Aureuma/svelta-docs.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/Aureuma/svelta/issues"
+    "url": "https://github.com/Aureuma/svelta-docs/issues"
   },
-  "homepage": "https://github.com/Aureuma/svelta/tree/main/packages/core#readme",
+  "homepage": "https://github.com/Aureuma/svelta-docs/tree/main/packages/core#readme",
   "keywords": [
     "svelte",
     "sveltekit",
-    "blog",
+    "docs",
+    "documentation",
     "markdown",
-    "mdsvex",
     "shiki",
     "tailwind"
   ],

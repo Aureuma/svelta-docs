@@ -48,7 +48,7 @@ npm whoami
 Recommended npm permission check:
 
 ```bash
-npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta'
+npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
 ```
 
 ### 1) Determine version and release title
@@ -95,7 +95,7 @@ git push origin vX.Y.Z
 
 ```bash
 npm publish --access public
-npm view @aureuma/svelta version
+npm view @aureuma/svelta-docs version
 ```
 
 If npm publish fails, stop here and fix before creating a GitHub Release.
@@ -121,7 +121,7 @@ gh release create vX.Y.Z \
 ```bash
 gh release view vX.Y.Z --web
 gh release view vX.Y.Z --json assets --jq '.assets[].name'
-npm view @aureuma/svelta version
+npm view @aureuma/svelta-docs version
 ```
 
 ## Automated release assets

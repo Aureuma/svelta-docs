@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BackLink, DocsPager, DocsShell } from '@aureuma/svelta';
+	import { BackLink, DocsPager, DocsShell } from '@aureuma/svelta-docs';
 	import { attachCodeCopyButtons } from '$lib/client/code-copy';
 	import { docsPattern } from '$lib/config/patterns';
 	import DocsFeedback from '$lib/components/site/DocsFeedback.svelte';

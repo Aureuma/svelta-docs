@@ -1,11 +1,11 @@
 # Docs + Blog Feature Matrix
 
-This document captures feature baselines from established docs/blog systems and maps what is implemented in `svelta`.
+This document captures feature baselines from established docs/docs systems and maps what is implemented in `svelta`.
 
 ## Reference Sources
 
-- Modern documentation and blog platforms were reviewed for parity in navigation, content authoring, and publishing workflows.
-- Focus areas included docs information architecture, markdown UX, blog taxonomy/discovery, and contributor workflows.
+- Modern documentation and docs platforms were reviewed for parity in navigation, content authoring, and publishing workflows.
+- Focus areas included docs information architecture, markdown UX, docs taxonomy/discovery, and contributor workflows.
 
 ## Core Docs Features (Implemented)
 
@@ -30,4 +30,4 @@ This document captures feature baselines from established docs/blog systems and 
 
 ## Regression Coverage
 
-All implemented features above are backed by Playwright regression tests in `tests/blog.spec.ts` and run in CI.
+All implemented features above are backed by Playwright regression tests in `tests/docs.spec.ts` and run in CI.

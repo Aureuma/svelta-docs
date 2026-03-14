@@ -1,4 +1,4 @@
-import { createDocs } from '@aureuma/svelta/server';
+import { createDocs } from '@aureuma/svelta-docs/server';
 import { docsPattern } from '$lib/config/patterns';
 import type { DocsPageFull } from '$lib/types/docs';
 

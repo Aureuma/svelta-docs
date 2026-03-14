@@ -39,7 +39,7 @@ jobs:
         run: |
           TAG="$(node - <<'NODE'
           const pkgs = JSON.parse(process.env.PUBLISHED_PACKAGES || '[]');
-          const pkg = pkgs.find((p) => p.name === '@aureuma/svelta') || pkgs[0];
+          const pkg = pkgs.find((p) => p.name === '@aureuma/svelta-docs') || pkgs[0];
           if (!pkg) process.exit(0);
           process.stdout.write(`${pkg.name}@${pkg.version}`);
           NODE

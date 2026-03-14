@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DocsSectionGrid } from '@aureuma/svelta';
+	import { DocsSectionGrid } from '@aureuma/svelta-docs';
 	import { docsPattern } from '$lib/config/patterns';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -40,9 +40,9 @@
 					Start Documentation
 				</Button>
 			{/if}
-			<Button href="/blog" variant="outline">
+			<Button href="/docs/overview" variant="outline">
 				<BookIcon class="size-4" />
-				Open Blog Experience
+				Open Overview
 			</Button>
 		</div>
 	</div>

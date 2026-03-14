@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { DocsSidebarSection } from '../../types/docs';
-	import Container from '../blog/Container.svelte';
+	import Container from '../common/Container.svelte';
 	import DocsSidebar from './DocsSidebar.svelte';
 
 	export let sections: DocsSidebarSection[] = [];

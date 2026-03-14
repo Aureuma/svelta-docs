@@ -1,30 +1,29 @@
 <!doctype html>
 <html lang="en" class="light">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<script>
-			(() => {
-				try {
-					const stored = localStorage.getItem('svelta-appearance') || 'system';
-					const storedPalette =
-						localStorage.getItem('svelta-appearance-palette') || 'argon';
-					const prefersDark =
-						window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-					const resolved = stored === 'system' ? (prefersDark ? 'dark' : 'light') : stored;
-					document.documentElement.classList.remove('light', 'dark');
-					document.documentElement.classList.add(resolved);
-					document.documentElement.dataset.appearance = stored;
-					document.documentElement.dataset.palette = storedPalette;
-				} catch {
-					document.documentElement.classList.add('light');
-					document.documentElement.dataset.palette = 'argon';
-				}
-			})();
-		</script>
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem('svelta-docs-appearance') || 'system';
+          const storedPalette = localStorage.getItem('svelta-docs-appearance-palette') || 'argon';
+          const prefersDark =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const resolved = stored === 'system' ? (prefersDark ? 'dark' : 'light') : stored;
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(resolved);
+          document.documentElement.dataset.appearance = stored;
+          document.documentElement.dataset.palette = storedPalette;
+        } catch {
+          document.documentElement.classList.add('light');
+          document.documentElement.dataset.palette = 'argon';
+        }
+      })();
+    </script>
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>

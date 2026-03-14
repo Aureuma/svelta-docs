@@ -10,7 +10,7 @@ This repository uses Git tags + GitHub Releases + npm publish. Follow this order
 - You are authenticated to npm for `@aureuma`
 - npm publish access is confirmed:
   - `npm whoami`
-  - `npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta'`
+  - `npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'`
 
 ## 1. Decide Version
 
@@ -59,7 +59,7 @@ Preferred path:
    - `NPM_TOKEN` secret is set in GitHub Actions, or
    - npm trusted publishing (OIDC) is configured for this repo/package.
 1. Verify publish resolved on npmjs:
-   - `npm view @aureuma/svelta version`
+   - `npm view @aureuma/svelta-docs version`
 
 Fallback local path (only if needed):
 
@@ -85,7 +85,7 @@ Fallback local path (only if needed):
 - Verify uploaded assets:
   - `gh release view vX.Y.Z --json assets --jq '.assets[].name'`
 - Verify npm versions:
-  - `npm view @aureuma/svelta version`
+  - `npm view @aureuma/svelta-docs version`
 
 Expected release assets:
 - `aureuma-svelta-<version>.tgz`

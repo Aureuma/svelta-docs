@@ -21,6 +21,6 @@ npm i @aureuma/svelta
 Set `PUBLIC_SVELTA_EXPERIENCE` to either:
 
 - `docs`
-- `blog`
+- `docs`
 
 This drives the default entry point and navigation emphasis.

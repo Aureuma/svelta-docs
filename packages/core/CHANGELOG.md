@@ -15,4 +15,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added exported Viva-focused types for frontmatter and author profiles.
 
 ### Changed
-- Expanded `@aureuma/svelta/server` exports to support Viva app migration without custom blog parsing code.
+- Expanded `@aureuma/svelta-docs/server` exports to support Viva app migration without custom docs parsing code.

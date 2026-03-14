@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { DocsSidebar } from '@aureuma/svelta';
+	import { DocsSidebar } from '@aureuma/svelta-docs';
 	import { docsPattern } from '$lib/config/patterns';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';

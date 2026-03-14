@@ -1,7 +1,7 @@
 import { getAdjacentPages, getPageBySlug } from '$lib/server/docs';
 import { extractDocsHeadings } from '$lib/server/docs-headings';
 import { docsPattern } from '$lib/config/patterns';
-import { resolveDocsEditUrl } from '@aureuma/svelta/experience';
+import { resolveDocsEditUrl } from '@aureuma/svelta-docs/experience';
 import { error } from '@sveltejs/kit';
 import { render } from 'svelte/server';
 import type { PageServerLoad } from './$types';
