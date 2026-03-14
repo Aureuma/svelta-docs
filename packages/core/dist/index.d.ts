@@ -6,4 +6,4 @@ export { default as DocsShell } from './components/docs/DocsShell.svelte';
 export { default as DocsSidebar } from './components/docs/DocsSidebar.svelte';
 export { createDocsPatternConfig, DEFAULT_DOCS_PATTERN_CONFIG, resolveDocsEditUrl } from './experience';
 export type { DocsPage, DocsPageFull, DocsPageWithContent, DocsSection, DocsSidebarSection } from './types/docs';
-export type { SveltaDocsPatternConfig, SveltaNavItem } from './types/experience';
+export type { SveltaDocsAppearanceMode, SveltaDocsPatternConfig, SveltaNavItem } from './types/experience';

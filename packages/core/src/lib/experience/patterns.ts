@@ -24,6 +24,15 @@ export const DEFAULT_DOCS_PATTERN_CONFIG: SveltaDocsPatternConfig = {
     'Ship a dedicated docs UX with section navigation, command-palette search, right-rail table of contents, and content feedback loops.',
   defaultSectionLabel: 'Guides',
   sectionOrder: ['overview', 'getting-started', 'guides', 'api', 'reference'],
+  branding: {
+    title: 'svelta-docs',
+    subtitle: 'Documentation',
+    favicon: '/favicon.ico',
+    logo: {
+      light: '/logo-light.svg',
+      dark: '/logo-dark.svg'
+    }
+  },
   navigation: {
     header: [
       { label: 'Docs', href: '/docs' },
@@ -37,7 +46,9 @@ export const DEFAULT_DOCS_PATTERN_CONFIG: SveltaDocsPatternConfig = {
   search: {
     enabled: true,
     placeholder: 'Search documentation...',
-    shortcut: 'Ctrl K'
+    shortcut: 'Ctrl K',
+    dialogTitle: 'Search documentation',
+    dialogDescription: 'Jump to any documentation page'
   },
   toc: {
     enabled: true,
@@ -46,6 +57,19 @@ export const DEFAULT_DOCS_PATTERN_CONFIG: SveltaDocsPatternConfig = {
   feedback: {
     enabled: true,
     prompt: 'Was this page helpful?'
+  },
+  chrome: {
+    docsRootLabel: 'Docs',
+    mobileNavigationLabel: 'Open navigation',
+    colorModeLabel: 'Toggle color mode',
+    previousPageLabel: 'Previous',
+    nextPageLabel: 'Next',
+    copyPageLabel: 'Copy page link',
+    copiedPageLabel: 'Copied',
+    editPageLabel: 'Edit this page'
+  },
+  appearance: {
+    defaultMode: 'system'
   },
   editLinkTemplate: 'https://github.com/Aureuma/svelta-docs/blob/main/src/content/docs/:slug.md'
 };

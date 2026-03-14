@@ -3,6 +3,7 @@ export type SveltaNavItem = {
     href: string;
     external?: boolean;
 };
+export type SveltaDocsAppearanceMode = 'system' | 'light' | 'dark';
 export type SveltaDocsPatternConfig = {
     kind: 'docs';
     brandName: string;
@@ -11,6 +12,15 @@ export type SveltaDocsPatternConfig = {
     description: string;
     defaultSectionLabel: string;
     sectionOrder: string[];
+    branding: {
+        title: string;
+        subtitle: string;
+        favicon: string;
+        logo: {
+            light: string;
+            dark: string;
+        };
+    };
     navigation: {
         header: SveltaNavItem[];
         footer: SveltaNavItem[];
@@ -19,6 +29,8 @@ export type SveltaDocsPatternConfig = {
         enabled: boolean;
         placeholder: string;
         shortcut: string;
+        dialogTitle: string;
+        dialogDescription: string;
     };
     toc: {
         enabled: boolean;
@@ -27,6 +39,19 @@ export type SveltaDocsPatternConfig = {
     feedback: {
         enabled: boolean;
         prompt: string;
+    };
+    chrome: {
+        docsRootLabel: string;
+        mobileNavigationLabel: string;
+        colorModeLabel: string;
+        previousPageLabel: string;
+        nextPageLabel: string;
+        copyPageLabel: string;
+        copiedPageLabel: string;
+        editPageLabel: string;
+    };
+    appearance: {
+        defaultMode: SveltaDocsAppearanceMode;
     };
     editLinkTemplate: string;
 };

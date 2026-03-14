@@ -6,10 +6,12 @@ import {
   type AppearanceMode,
   type AppearancePaletteId
 } from '@aureuma/svelta-docs/appearance';
+import { docsPattern } from '$lib/config/patterns';
 
 export const appearance: AppearanceController = createAppearanceController({
   storageKey: 'svelta-docs-appearance',
   paletteStorageKey: 'svelta-docs-appearance-palette',
+  defaultMode: docsPattern.appearance.defaultMode,
   defaultPalette: DEFAULT_APPEARANCE_PALETTE
 });
 

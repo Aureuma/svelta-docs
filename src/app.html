@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
       (() => {
         try {
-          const stored = localStorage.getItem('svelta-docs-appearance') || 'system';
+          const stored = localStorage.getItem('svelta-docs-appearance') || 'dark';
           const storedPalette = localStorage.getItem('svelta-docs-appearance-palette') || 'argon';
           const prefersDark =
             window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -16,7 +16,8 @@
           document.documentElement.dataset.appearance = stored;
           document.documentElement.dataset.palette = storedPalette;
         } catch {
-          document.documentElement.classList.add('light');
+          document.documentElement.classList.add('dark');
+          document.documentElement.dataset.appearance = 'dark';
           document.documentElement.dataset.palette = 'argon';
         }
       })();
