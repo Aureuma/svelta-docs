@@ -6,16 +6,16 @@
 /* Appearance tokens used by svelta components and docs/blog pages. */
 html.light {
 	color-scheme: light;
-	--c-background-main: 252 252 252;
-	--c-background-soft: 245 246 248;
-	--c-background-invert: 8 12 20;
-	--c-text-main: 12 18 28;
-	--c-text-sub: 71 85 105;
-	--c-text-muted: 100 116 139;
+	--c-background-main: 255 255 255;
+	--c-background-soft: 243 246 245;
+	--c-background-invert: 12 14 15;
+	--c-text-main: 23 26 25;
+	--c-text-sub: 80 83 82;
+	--c-text-muted: 112 115 114;
 	--c-text-invert: 248 250 252;
-	--c-border-soft: 15 23 42;
-	--c-brand: 34 197 94;
-	--c-brand-soft: 220 252 231;
+	--c-border-soft: 158 161 161;
+	--c-brand: 15 109 95;
+	--c-brand-soft: 225 248 241;
 
 	/* shadcn-svelte tokens mapped onto the same palette. */
 	--radius: 0.625rem;
@@ -54,16 +54,16 @@ html.light {
 
 html.dark {
 	color-scheme: dark;
-	--c-background-main: 9 12 18;
-	--c-background-soft: 14 19 28;
+	--c-background-main: 12 14 15;
+	--c-background-soft: 23 26 25;
 	--c-background-invert: 250 250 252;
-	--c-text-main: 238 242 247;
-	--c-text-sub: 148 163 184;
-	--c-text-muted: 100 116 139;
+	--c-text-main: 238 241 240;
+	--c-text-sub: 206 209 208;
+	--c-text-muted: 158 161 161;
 	--c-text-invert: 10 12 16;
-	--c-border-soft: 148 163 184;
-	--c-brand: 52 211 153;
-	--c-brand-soft: 5 46 22;
+	--c-border-soft: 112 115 114;
+	--c-brand: 139 240 201;
+	--c-brand-soft: 12 75 66;
 
 	--background: rgb(var(--c-background-main));
 	--foreground: rgb(var(--c-text-main));
@@ -449,4 +449,77 @@ pre.shiki {
 .blog-prose .admonition-caution,
 .docs-prose .admonition-caution {
 	border-left-color: rgb(245 158 11);
+}
+
+.mintlify-prose {
+	font-size: 1rem;
+	line-height: 1.85;
+	color: rgb(var(--c-text-sub));
+}
+
+.mintlify-prose > :first-child {
+	margin-top: 0;
+}
+
+.mintlify-prose h1,
+.mintlify-prose h2,
+.mintlify-prose h3,
+.mintlify-prose h4 {
+	color: rgb(var(--c-text-main));
+	font-weight: 600;
+	letter-spacing: -0.03em;
+}
+
+.mintlify-prose h2 {
+	margin-top: 3rem;
+	margin-bottom: 1rem;
+	font-size: 1.65rem;
+	line-height: 1.2;
+}
+
+.mintlify-prose h3 {
+	margin-top: 2rem;
+	margin-bottom: 0.75rem;
+	font-size: 1.2rem;
+	line-height: 1.35;
+}
+
+.mintlify-prose p,
+.mintlify-prose ul,
+.mintlify-prose ol,
+.mintlify-prose blockquote,
+.mintlify-prose table {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.mintlify-prose a {
+	color: rgb(var(--c-brand));
+	text-decoration: none;
+}
+
+.mintlify-prose a:hover {
+	text-decoration: underline;
+	text-decoration-color: rgb(var(--c-brand) / 0.45);
+	text-underline-offset: 0.22em;
+}
+
+.mintlify-prose code {
+	border-radius: 0.5rem;
+	background: rgb(var(--c-background-main));
+	padding: 0.18rem 0.42rem;
+	font-size: 0.9em;
+	color: rgb(var(--c-text-main));
+}
+
+.mintlify-prose blockquote {
+	border-left: 3px solid rgb(var(--c-brand) / 0.32);
+	padding-left: 1rem;
+	color: rgb(var(--c-text-sub));
+}
+
+.mintlify-prose hr {
+	margin: 2rem 0;
+	border: 0;
+	border-top: 1px solid rgb(var(--c-border-soft) / 0.16);
 }
