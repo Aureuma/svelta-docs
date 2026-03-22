@@ -25,14 +25,43 @@
       contentHtml: string;
       adjacent: { previous: DocsPage | null; next: DocsPage | null };
       toc: DocsHeading[];
+      docsContext: {
+        version: { id: string; label: string; status: string };
+        locale: { id: string; label: string; status: string };
+        isVersionAlias: boolean;
+        isLocaleAlias: boolean;
+      };
       sourceUrl: string;
       canonicalUrl: string;
+      seo: {
+        title: string;
+        description: string;
+        canonicalUrl: string;
+        keywords: string[];
+        og: {
+          title: string;
+          description: string;
+          type: 'article';
+          url: string;
+        };
+        twitter: {
+          card: 'summary';
+          title: string;
+          description: string;
+        };
+        jsonLd: string;
+      };
     };
     currentTabLabel: string;
     currentGroupLabel: string;
   }>();
 
   let copied = $state(false);
+  let articleEl = $state<HTMLElement | null>(null);
+  let activeHeadingId = $state('');
+  const safeJsonLd = $derived(
+    data.seo.jsonLd.replace(/</g, '\\u003c').replace(/<\/script/gi, '<\\/script')
+  );
 
   async function copyCanonicalUrl() {
     if (!('clipboard' in navigator)) return;
@@ -42,16 +71,55 @@
       copied = false;
     }, 1400);
   }
+
+  $effect(() => {
+    const _ = data.contentHtml;
+    activeHeadingId = data.toc[0]?.id ?? '';
+    if (!articleEl || data.toc.length === 0 || typeof window === 'undefined') return;
+    const article = articleEl;
+
+    const headings = data.toc
+      .map((heading: DocsHeading) => document.getElementById(heading.id))
+      .filter((heading: HTMLElement | null): heading is HTMLElement => Boolean(heading));
+    if (headings.length === 0) return;
+
+    const updateActiveHeading = () => {
+      void article;
+      const current = headings
+        .filter((heading: HTMLElement) => heading.getBoundingClientRect().top <= 168)
+        .at(-1);
+      activeHeadingId = current?.id ?? headings[0]?.id ?? '';
+    };
+
+    updateActiveHeading();
+    window.addEventListener('scroll', updateActiveHeading, { passive: true });
+    window.addEventListener('resize', updateActiveHeading);
+    return () => {
+      window.removeEventListener('scroll', updateActiveHeading);
+      window.removeEventListener('resize', updateActiveHeading);
+    };
+  });
 </script>
 
 <svelte:head>
-  <title>{data.page.title} - {docsPattern.productName}</title>
-  <meta name="description" content={data.page.description || data.page.title} />
-  <link rel="canonical" href={data.canonicalUrl} />
+  <title>{data.seo.title}</title>
+  <meta name="description" content={data.seo.description} />
+  {#if data.seo.keywords.length > 0}
+    <meta name="keywords" content={data.seo.keywords.join(', ')} />
+  {/if}
+  <link rel="canonical" href={data.seo.canonicalUrl} />
+  <meta property="og:title" content={data.seo.og.title} />
+  <meta property="og:description" content={data.seo.og.description} />
+  <meta property="og:type" content={data.seo.og.type} />
+  <meta property="og:url" content={data.seo.og.url} />
+  <meta name="twitter:card" content={data.seo.twitter.card} />
+  <meta name="twitter:title" content={data.seo.twitter.title} />
+  <meta name="twitter:description" content={data.seo.twitter.description} />
+  <svelte:element this={'script'} type="application/ld+json">{safeJsonLd}</svelte:element>
 </svelte:head>
 
-<div class="grid min-w-0 grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_220px] xl:gap-12">
-  <article class="min-w-0 max-w-3xl" data-testid="docs-article-page">
+<div class="grid min-w-0 grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_240px] xl:gap-12">
+  <article bind:this={articleEl} class="min-w-0 max-w-3xl" data-testid="docs-article-page">
     <Breadcrumb.Root class="mb-4">
       <Breadcrumb.List>
         <Breadcrumb.Item>
@@ -73,6 +141,12 @@
         <Badge variant="outline" class="rounded-full border-emerald-500/20 bg-emerald-500/8 text-emerald-700 dark:text-emerald-300">
           {currentGroupLabel}
         </Badge>
+        <Badge variant="outline" class="rounded-full border-border-soft/10 text-text-sub">
+          {data.docsContext.version.label}
+        </Badge>
+        <Badge variant="outline" class="rounded-full border-border-soft/10 text-text-sub">
+          {data.docsContext.locale.label}
+        </Badge>
         {#if data.page.updatedAtLong}
           <p class="text-xs font-medium text-text-muted">Updated {data.page.updatedAtLong}</p>
         {/if}
@@ -83,6 +157,22 @@
       </h1>
       {#if data.page.description}
         <p class="mt-4 max-w-2xl text-[1.05rem] leading-7 text-text-sub">{data.page.description}</p>
+      {/if}
+
+      {#if data.page.tags.length > 0}
+        <div class="mt-5 flex flex-wrap gap-2">
+          {#each data.page.tags as tag}
+            <Badge variant="outline" class="rounded-full border-border-soft/10 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-text-sub">
+              {tag}
+            </Badge>
+          {/each}
+        </div>
+      {/if}
+
+      {#if data.docsContext.isVersionAlias || data.docsContext.isLocaleAlias}
+        <p class="mt-4 text-xs font-mono uppercase tracking-[0.14em] text-text-muted">
+          Alias context: version={data.docsContext.version.id} locale={data.docsContext.locale.id}
+        </p>
       {/if}
 
       <div class="mt-6 flex flex-wrap items-center gap-2">
@@ -101,6 +191,32 @@
         </Button>
       </div>
     </header>
+
+    {#if data.toc.length > 0}
+      <details class="mb-8 overflow-hidden rounded-3xl border border-border-soft/10 bg-background-soft/55 xl:hidden">
+        <summary class="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-text-main">
+          {docsPattern.toc.title}
+        </summary>
+        <nav class="border-t border-border-soft/10 px-3 py-3" aria-label="On this page">
+          <ul class="space-y-1.5">
+            {#each data.toc as heading (heading.id)}
+              <li>
+                <a
+                  href={`#${heading.id}`}
+                  class={`block rounded-2xl px-3 py-2 text-sm transition ${activeHeadingId === heading.id
+                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                    : heading.level === 3
+                      ? 'pl-6 text-text-muted hover:bg-background-main/70 hover:text-text-main'
+                      : 'text-text-sub hover:bg-background-main/70 hover:text-text-main'}`}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            {/each}
+          </ul>
+        </nav>
+      </details>
+    {/if}
 
     <div class="docs-prose mintlify-prose prose max-w-none" data-testid="docs-article">
       {@html data.contentHtml}
@@ -152,9 +268,11 @@
                 <li>
                   <a
                     href={`#${heading.id}`}
-                    class="block rounded-xl px-3 py-2 text-sm transition hover:bg-background-main/70 hover:text-text-main {heading.level === 3
-                      ? 'pl-6 text-text-muted'
-                      : 'text-text-sub'}"
+                    class={`block rounded-xl px-3 py-2 text-sm transition ${activeHeadingId === heading.id
+                      ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                      : heading.level === 3
+                        ? 'pl-6 text-text-muted hover:bg-background-main/70 hover:text-text-main'
+                        : 'text-text-sub hover:bg-background-main/70 hover:text-text-main'}`}
                   >
                     {heading.text}
                   </a>

@@ -22,6 +22,18 @@
       >
         Read Overview
       </a>
+      <a
+        href="/docs/search"
+        class="inline-flex items-center justify-center rounded-full border border-border-soft/15 bg-background-soft px-5 py-2 text-sm font-medium text-text-main transition hover:bg-background-main/60"
+      >
+        Search Docs
+      </a>
+      <a
+        href="/docs/platform.json"
+        class="inline-flex items-center justify-center rounded-full border border-border-soft/15 bg-background-soft px-5 py-2 text-sm font-medium text-text-main transition hover:bg-background-main/60"
+      >
+        Platform JSON
+      </a>
     </div>
   </div>
 
@@ -42,6 +54,12 @@
       <p class="text-xs font-mono uppercase tracking-[0.6px] text-text-muted">Authoring</p>
       <p class="mt-2 text-lg font-medium tracking-tight">Markdown runtime</p>
       <p class="mt-2 text-sm leading-6 text-text-sub">Use mdsvex pages or the raw docs runtime for server-rendered content.</p>
+    </section>
+
+    <section class="rounded-3xl border border-border-soft/10 bg-background-soft p-8 md:col-span-3">
+      <p class="text-xs font-mono uppercase tracking-[0.6px] text-text-muted">Machine-readable</p>
+      <p class="mt-2 text-lg font-medium tracking-tight">Operational exports</p>
+      <p class="mt-2 text-sm leading-6 text-text-sub">Pages, navigation, platform metadata, search, versions, locales, and discovery routes are all exposed directly for automation and external consumers.</p>
     </section>
   </div>
 </section>

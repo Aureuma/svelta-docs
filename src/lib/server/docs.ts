@@ -1,3 +1,4 @@
+import { DEV } from 'esm-env';
 import { createDocs } from '@aureuma/svelta-docs/server';
 import { buildAureumaDocsNavigation, getAureumaDocsPageRef } from '$lib/config/aureuma-docs';
 import { docsPattern } from '$lib/config/patterns';
@@ -21,6 +22,22 @@ type DocsFrontmatter = {
 	draft?: boolean;
 };
 
+export type DocsSearchEntry = {
+	id: string;
+	slug: string;
+	href: string;
+	title: string;
+	navTitle: string;
+	description: string;
+	snippet: string;
+	sectionLabel: string;
+	tabLabel: string;
+	groupLabel: string;
+	tags: string[];
+	headings: string[];
+	value: string;
+};
+
 const compiledModules = import.meta.glob(['/src/content/docs/**/*.md', '/src/content/docs/**/*.mdx']) as Record<
 	string,
 	() => Promise<CompiledModule>
@@ -41,6 +58,15 @@ const sourcePathBySlug = new Map(
 		.map((path) => {
 			const slug = slugFromModulePath(path);
 			return slug ? [slug, path.replace(/^\/src\/content\/docs\//, '')] : null;
+		})
+		.filter((entry): entry is [string, string] => Boolean(entry))
+);
+
+const rawModulePathBySlug = new Map(
+	Object.keys(rawModules)
+		.map((path) => {
+			const slug = slugFromModulePath(path);
+			return slug ? [slug, path] : null;
 		})
 		.filter((entry): entry is [string, string] => Boolean(entry))
 );
@@ -94,6 +120,46 @@ function extractDescription(markdown: string): string | undefined {
 	}
 
 	return undefined;
+}
+
+function stripFrontmatter(raw: string): string {
+	return raw.replace(/^---[\s\S]*?---\s*/u, '');
+}
+
+function stripMarkdown(markdown: string): string {
+	return markdown
+		.replace(/```[\s\S]*?```/g, ' ')
+		.replace(/`([^`]+)`/g, '$1')
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+		.replace(/^>\s?/gm, '')
+		.replace(/^#{1,6}\s+/gm, '')
+		.replace(/^[-*+]\s+/gm, '')
+		.replace(/^\d+\.\s+/gm, '')
+		.replace(/<[^>]+>/g, ' ')
+		.replace(/[|]/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+}
+
+function extractSearchHeadings(markdown: string): string[] {
+	const headings: string[] = [];
+	const cleaned = markdown.replace(/```[\s\S]*?```/g, '');
+	let match: RegExpExecArray | null = null;
+	const headingPattern = /^#{2,3}\s+(.+)$/gm;
+
+	while ((match = headingPattern.exec(cleaned)) !== null) {
+		const text = match[1]?.replace(/`([^`]+)`/g, '$1').trim();
+		if (text) headings.push(text);
+	}
+
+	return headings;
+}
+
+function snippetFromText(description: string, body: string): string {
+	if (description) return description;
+	if (!body) return '';
+	return body.length > 220 ? `${body.slice(0, 217).trimEnd()}...` : body;
 }
 
 function mapAureumaDocsFrontmatter(args: {
@@ -157,4 +223,55 @@ export function rewriteDocsHtmlLinks(html: string, slug: string): string {
 		const resolved = new URL(relativeHref, `https://docs.aureuma.ai${basePath}`).pathname;
 		return `href="${resolved}"`;
 	});
+}
+
+let cachedSearchEntries: DocsSearchEntry[] | null = null;
+
+export async function getSearchEntries(): Promise<DocsSearchEntry[]> {
+	if (!DEV && cachedSearchEntries) return cachedSearchEntries;
+
+	const pages = await getAllPages();
+	const entries: DocsSearchEntry[] = [];
+
+	for (const page of pages) {
+		const rawModulePath = rawModulePathBySlug.get(page.slug);
+		const raw = rawModulePath && rawModules[rawModulePath] ? await rawModules[rawModulePath]!() : '';
+		const markdown = stripFrontmatter(raw);
+		const body = stripMarkdown(markdown);
+		const headings = extractSearchHeadings(markdown);
+		const navRef = getAureumaDocsPageRef(page.slug);
+		const description = page.description || '';
+		const snippet = snippetFromText(description, body);
+
+		entries.push({
+			id: page.slug,
+			slug: page.slug,
+			href: getHrefForPage(page),
+			title: page.title,
+			navTitle: page.navTitle,
+			description,
+			snippet,
+			sectionLabel: page.section.label,
+			tabLabel: navRef?.tabLabel ?? 'Documentation',
+			groupLabel: navRef?.groupLabel ?? page.section.label,
+			tags: page.tags,
+			headings,
+			value: [
+				page.title,
+				page.navTitle,
+				description,
+				page.section.label,
+				navRef?.tabLabel,
+				navRef?.groupLabel,
+				page.tags.join(' '),
+				headings.join(' '),
+				body.slice(0, 1600)
+			]
+				.filter(Boolean)
+				.join(' ')
+		});
+	}
+
+	if (!DEV) cachedSearchEntries = entries;
+	return entries;
 }
