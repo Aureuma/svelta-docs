@@ -45,7 +45,7 @@
     "build:core": "npm -w @aureuma/svelta-docs-core run build",
     "preview": "vite preview",
     "host:internal": "npm run build && npm run preview -- --host 0.0.0.0 --port 4173",
-    "prepare": "svelte-kit sync || echo ''",
+    "prepare": "node scripts/prepare.mjs",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:guard": "node scripts/ensure-ci.mjs",
