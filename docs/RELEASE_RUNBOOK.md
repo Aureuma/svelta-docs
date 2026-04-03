@@ -1,6 +1,6 @@
 # Release Runbook
 
-This repository uses Git tags + GitHub Releases + npm publish. Follow this order to avoid partial or inconsistent releases.
+This repository uses Git tags + GitHub Releases + `pnpm publish`. Follow this order to avoid partial or inconsistent releases.
 
 ## Preconditions
 
@@ -8,9 +8,9 @@ This repository uses Git tags + GitHub Releases + npm publish. Follow this order
 - CI is green on `main`
 - You can push tags and create releases in GitHub
 - You are authenticated to npm for `@aureuma`
-- npm publish access is confirmed:
-  - `npm whoami`
-  - `npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'`
+- Publish access is confirmed:
+  - `pnpm whoami`
+  - `pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'`
 
 ## 1. Decide Version
 
@@ -22,12 +22,12 @@ This repository uses Git tags + GitHub Releases + npm publish. Follow this order
 1. Edit `CHANGELOG.md` (repo-level release notes).
 1. Update `package.json` version to `X.Y.Z`.
 1. Regenerate lockfile metadata:
-   - `npm install --package-lock-only`
+   - `pnpm install --lockfile-only`
 
 ## 3. Commit
 
 1. Commit release prep changes:
-   - `git add CHANGELOG.md package.json package-lock.json`
+   - `git add CHANGELOG.md package.json pnpm-lock.yaml`
    - `git commit -m "release: vX.Y.Z"`
 
 ## 4. Tag
@@ -59,12 +59,12 @@ Preferred path:
    - `NPM_TOKEN` secret is set in GitHub Actions, or
    - npm trusted publishing (OIDC) is configured for this repo/package.
 1. Verify publish resolved on npmjs:
-   - `npm view @aureuma/svelta-docs version`
+   - `pnpm view @aureuma/svelta-docs version`
 
 Fallback local path (only if needed):
 
-1. `npm whoami`
-1. `npm publish --access public --provenance`
+1. `pnpm whoami`
+1. `pnpm publish --access public --provenance`
 
 ## 7. Create GitHub Release
 
@@ -85,7 +85,7 @@ Fallback local path (only if needed):
 - Verify uploaded assets:
   - `gh release view vX.Y.Z --json assets --jq '.assets[].name'`
 - Verify npm versions:
-  - `npm view @aureuma/svelta-docs version`
+  - `pnpm view @aureuma/svelta-docs version`
 
 Expected release assets:
 - `aureuma-svelta-<version>.tgz`

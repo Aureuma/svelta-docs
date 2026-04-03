@@ -23,7 +23,7 @@ Markdown docs pages live in `src/content/docs/*.md`.
 ## Development
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 ## Package

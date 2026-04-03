@@ -33,6 +33,7 @@
   "main": "./dist/index.js",
   "svelte": "./dist/index.js",
   "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Aureuma/svelta-docs.git",
@@ -53,7 +54,7 @@
   ],
   "scripts": {
     "build": "svelte-package --tsconfig ./tsconfig.json",
-    "prepack": "npm run build"
+    "prepack": "pnpm run build"
   },
   "peerDependencies": {
     "svelte": "^4.0.0 || ^5.0.0"

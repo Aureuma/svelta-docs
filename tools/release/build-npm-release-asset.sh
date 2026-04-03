@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Build one npm package release archive via npm pack.
+Build one package release archive via pnpm pack.
 
 Usage:
   tools/release/build-npm-release-asset.sh \
@@ -71,7 +71,7 @@ if [[ "${version}" != v* ]]; then
   die "--version must include the v prefix (example: v0.1.0)"
 fi
 
-require_cmd npm
+require_cmd pnpm
 require_cmd node
 
 cd "${repo_root}"
@@ -100,9 +100,9 @@ filename="$(echo "${pkg_name}" | sed 's|^@||; s|/|-|g')-${pkg_version}.tgz"
 rm -f "${out_dir}/${filename}"
 
 cd "${pkg_dir_abs}"
-npm pack --pack-destination "${out_dir}" >/dev/null
+pnpm pack --pack-destination "${out_dir}" >/dev/null
 
 asset_path="${out_dir}/${filename}"
-[[ -f "${asset_path}" ]] || die "expected npm pack output missing: ${asset_path}"
+[[ -f "${asset_path}" ]] || die "expected pnpm pack output missing: ${asset_path}"
 
 echo "created ${asset_path}"

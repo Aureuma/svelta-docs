@@ -23,8 +23,8 @@ A sibling repository (`../si-integrations`) now contains:
 ## Operational Workflow
 
 1. Add or update orbit manifests in the external pack.
-2. Build catalogs (`npm run build:catalogs`).
-3. Validate catalogs (`npm test`).
+2. Build catalogs (`pnpm run build:catalogs`).
+3. Validate catalogs (`pnpm test`).
 4. Load into SI:
 
 ```bash

@@ -1,6 +1,6 @@
 # Releasing and Changelog Guide
 
-This project follows Semantic Versioning and keeps a human-focused changelog.
+This project follows Semantic Versioning and keeps a human-focused changelog. The repo is managed with `pnpm`.
 
 ## Versioning Rules
 
@@ -42,13 +42,13 @@ git status -sb
 git fetch --tags origin
 git switch main
 git pull --ff-only
-npm whoami
+pnpm whoami
 ```
 
-Recommended npm permission check:
+Recommended registry permission check:
 
 ```bash
-npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
+pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
 ```
 
 ### 1) Determine version and release title
@@ -65,13 +65,13 @@ npm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
 
 Update:
 - `package.json`
-- `package-lock.json` (`npm install --package-lock-only`)
+- `pnpm-lock.yaml` (`pnpm install --lockfile-only`)
 
 ### 4) Validate + build release artifacts locally
 
 ```bash
-npm ci
-npm run check
+pnpm install --frozen-lockfile
+pnpm run check
 tools/release/validate-release-version.sh --tag vX.Y.Z
 tools/release/build-npm-release-assets.sh --version vX.Y.Z --out-dir .artifacts/release-preflight
 ```
@@ -79,7 +79,7 @@ tools/release/build-npm-release-assets.sh --version vX.Y.Z --out-dir .artifacts/
 ### 5) Commit + tag
 
 ```bash
-git add CHANGELOG.md package.json package-lock.json
+git add CHANGELOG.md package.json pnpm-lock.yaml
 git commit -m "release: vX.Y.Z"
 git tag -a vX.Y.Z -m "vX.Y.Z"
 ```
@@ -94,11 +94,11 @@ git push origin vX.Y.Z
 ### 7) Publish to npm (npmjs first)
 
 ```bash
-npm publish --access public
-npm view @aureuma/svelta-docs version
+pnpm publish --access public
+pnpm view @aureuma/svelta-docs version
 ```
 
-If npm publish fails, stop here and fix before creating a GitHub Release.
+If `pnpm publish` fails, stop here and fix before creating a GitHub Release.
 
 ### 8) Create GitHub Release
 
@@ -121,7 +121,7 @@ gh release create vX.Y.Z \
 ```bash
 gh release view vX.Y.Z --web
 gh release view vX.Y.Z --json assets --jq '.assets[].name'
-npm view @aureuma/svelta-docs version
+pnpm view @aureuma/svelta-docs version
 ```
 
 ## Automated release assets

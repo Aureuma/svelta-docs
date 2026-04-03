@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Build npm release archives and checksums.
+Build pnpm release archives and checksums.
 
 Usage:
   tools/release/build-npm-release-assets.sh \

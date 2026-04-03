@@ -36,26 +36,28 @@
   "peerDependencies": {
     "svelte": "^4.0.0 || ^5.0.0"
   },
+  "packageManager": "pnpm@10.33.0",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "preinstall": "node scripts/enforce-pnpm.mjs",
     "dev": "vite dev",
     "build": "vite build",
-    "build:core": "npm -w @aureuma/svelta-docs-core run build",
+    "build:core": "pnpm --filter @aureuma/svelta-docs-core build",
     "preview": "vite preview",
-    "host:internal": "npm run build && npm run preview -- --host 0.0.0.0 --port 4173",
+    "host:internal": "pnpm build && pnpm preview -- --host 0.0.0.0 --port 4173",
     "prepare": "node scripts/prepare.mjs",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:guard": "node scripts/ensure-ci.mjs",
-    "test:server": "npm run test:guard && npm run build:core && node --test tests/raw-docs.test.mjs",
-    "test:e2e": "npm run test:guard && playwright test",
-    "test": "npm run test:guard && npm run check && npm run test:server && npm run test:e2e",
+    "test:server": "pnpm test:guard && pnpm build:core && node --test tests/raw-docs.test.mjs",
+    "test:e2e": "pnpm test:guard && playwright test",
+    "test": "pnpm test:guard && pnpm check && pnpm test:server && pnpm test:e2e",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "changeset publish",
-    "prepack": "npm -w @aureuma/svelta-docs-core run build"
+    "prepack": "pnpm --filter @aureuma/svelta-docs-core build"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
