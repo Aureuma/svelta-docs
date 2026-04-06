@@ -94,11 +94,11 @@ git push origin vX.Y.Z
 ### 7) Publish to npm (npmjs first)
 
 ```bash
-pnpm publish --access public
+tools/release/npm/publish-npm-from-vault.sh --version vX.Y.Z
 pnpm view @aureuma/svelta-docs version
 ```
 
-If `pnpm publish` fails, stop here and fix before creating a GitHub Release.
+If publish fails, stop here and fix before creating a GitHub Release.
 
 ### 8) Create GitHub Release
 

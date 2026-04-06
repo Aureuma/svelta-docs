@@ -1,35 +1,33 @@
 # Release Runbook
 
-This repo uses Git tags + GitHub Releases. Follow this order to avoid broken/partial releases.
+This repository uses Git tags + GitHub Releases + `pnpm publish`. Follow this order to avoid partial or inconsistent releases.
 
 ## Preconditions
 
 - Local worktree is clean: `git status`
 - CI is green on `main`
-- You have GitHub permissions to push tags and create releases
-- Optional distribution secrets (for full npm + Homebrew automation):
-  - `NPM_TOKEN`
-  - `HOMEBREW_TAP_PUSH_TOKEN`
+- You can push tags and create releases in GitHub
+- Publish access is confirmed for `@aureuma/svelta-docs`:
+  - `pnpm whoami`
+  - `pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'`
+- If publishing locally, the npm token is stored encrypted in `safe/svelta-docs/.env.prod` under `NPM_TOKEN`
 
 ## 1. Decide Version
 
-- Pick next semver tag, e.g. `vX.Y.Z`.
-- Keep `v0.x.y` consistent with prior tags in this repo.
+- Pick the next semver tag, for example `vX.Y.Z`.
+- Keep `v0.x.y` progression consistent with existing tags.
 
-## 2. Update Changelog
+## 2. Update Changelog and Versions
 
 1. Edit `CHANGELOG.md`.
-1. Add a new top section for the version/date, e.g.:
-   - `## [vX.Y.Z] - YYYY-MM-DD`
-1. Add bullets grouped by area (Dyad, CLI, Image, Docs, Vault, etc.).
-1. Ensure the items are user-facing (what changed) and include important migration notes.
-1. Update `tools/si/version.go`:
-   - `const siVersion = "vX.Y.Z"`
+1. Update `package.json` version to `X.Y.Z`.
+1. Regenerate lockfile metadata:
+   - `corepack pnpm install --lockfile-only`
 
 ## 3. Commit
 
 1. Commit release prep changes:
-   - `git add CHANGELOG.md tools/si/version.go`
+   - `git add CHANGELOG.md package.json pnpm-lock.yaml`
    - `git commit -m "release: vX.Y.Z"`
 
 ## 4. Tag
@@ -44,53 +42,54 @@ This repo uses Git tags + GitHub Releases. Follow this order to avoid broken/par
 1. Push tag:
    - `git push origin vX.Y.Z`
 
-## 5.5 Local release-assets preflight
+## 5.5 Local Release-Assets Preflight
 
-- Run:
-  - `si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-preflight`
-- Confirms archive packaging/checksum generation before publishing a GitHub Release.
+Run:
+- `tools/release/validate-release-version.sh --tag vX.Y.Z`
+- `tools/release/build-npm-release-assets.sh --version vX.Y.Z --out-dir .artifacts/release-preflight`
 
-## 6. Publish GitHub release
+This confirms tarball and checksum generation before publishing a GitHub Release.
 
-1. In GitHub UI: Releases -> "Draft a new release" (or use `gh release create`).
-1. Choose the tag `vX.Y.Z` on `main`.
-1. Title format: `vX.Y.Z - <short title>`.
-1. Body: paste the `CHANGELOG.md` section and add upgrade notes.
-1. Publish.
+## 6. Publish npm Package (npmjs)
 
-## 7. Post-release Checks
+Preferred path:
 
-- Local version:
-  - `si version`
-- Image version:
-  - `si build image`
-  - `docker run --rm aureuma/si:local si version`
-- Dyad smoke:
-  - `HOME=/home/<user> si dyad spawn <name> --skip-auth`
-  - `HOME=/home/<user> si dyad status <name>`
-  - `HOME=/home/<user> si dyad remove <name>`
-- Release assets:
-  - `gh run list --workflow "CLI Release Assets" --limit 1`
+1. Trigger workflow `Publish NPM` for the release tag (`vX.Y.Z`).
+1. Ensure either:
+   - `NPM_TOKEN` secret is set in GitHub Actions, or
+   - npm trusted publishing (OIDC) is configured for this repo/package.
+1. Verify publish resolved on npmjs:
+   - `pnpm view @aureuma/svelta-docs version`
+
+Fallback local path:
+
+1. Confirm the token is encrypted in `safe/svelta-docs/.env.prod` as `NPM_TOKEN`.
+1. Run:
+   - `tools/release/npm/publish-npm-from-vault.sh --version vX.Y.Z`
+1. For a no-publish rehearsal:
+   - `tools/release/npm/publish-npm-from-vault.sh --version vX.Y.Z --dry-run`
+
+## 7. Create GitHub Release
+
+1. In GitHub UI: Releases -> "Draft a new release".
+1. Choose tag `vX.Y.Z` on `main`.
+1. Title format:
+   - `vX.Y.Z - <short title>`
+1. Body:
+   - Paste the release section from `CHANGELOG.md`.
+   - Add short upgrade notes if behavior changed.
+1. Publish the release.
+1. After publish, wait for workflow `NPM Release Assets` to complete.
+
+## 8. Post-release Checks
+
+- Verify tag and release:
+  - `gh release view vX.Y.Z --json tagName,name,publishedAt`
+- Verify uploaded assets:
   - `gh release view vX.Y.Z --json assets --jq '.assets[].name'`
-  - Confirm these files exist:
-    - `si_<version>_linux_amd64.tar.gz`
-    - `si_<version>_linux_arm64.tar.gz`
-    - `si_<version>_linux_armv7.tar.gz`
-    - `si_<version>_darwin_amd64.tar.gz`
-    - `si_<version>_darwin_arm64.tar.gz`
-    - `checksums.txt`
-- npm package:
-  - `npm view @aureuma/si version`
-  - Expect returned version to match `X.Y.Z`.
-- npm publish using SI vault-managed token:
-  - `tools/release/npm/publish-npm-from-vault.sh -- --version vX.Y.Z`
-  - default token key: `NPM_GAT_AUREUMA_VANGUARDA`
-- Homebrew tap:
-  - `curl -fsSL https://raw.githubusercontent.com/Aureuma/homebrew-si/main/Formula/si.rb | grep 'version \"'`
-  - Formula version should match `X.Y.Z`.
+- Verify npm version:
+  - `pnpm view @aureuma/svelta-docs version`
 
-Workflow `.github/workflows/cli-release-assets.yml` now performs a final
-distribution verification job that checks:
-- required GitHub release assets are present
-- npm package visibility/version (when `NPM_TOKEN` is configured)
-- Homebrew tap version sync (when `HOMEBREW_TAP_PUSH_TOKEN` is configured)
+Expected release assets:
+- `aureuma-svelta-docs-<version>.tgz`
+- `checksums.txt`

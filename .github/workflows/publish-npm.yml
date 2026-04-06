@@ -29,7 +29,11 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+          cache: pnpm
           always-auth: true
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Verify tag matches package version
         shell: bash
@@ -44,7 +48,7 @@ jobs:
           fi
 
       - name: Install
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Resolve publish guard
         id: publish_guard
@@ -65,7 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
-          npm publish --access public --provenance
+          corepack pnpm publish --access public --provenance --no-git-checks
 
       - name: Skip notice (missing NPM token)
         if: steps.publish_guard.outputs.publish != 'true'

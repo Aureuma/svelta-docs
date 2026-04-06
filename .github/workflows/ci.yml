@@ -26,19 +26,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: npm run check
+        run: corepack pnpm run check
 
       - name: Build
-        run: npm run build
+        run: corepack pnpm run build
 
       - name: Server runtime tests
-        run: npm run test:server
+        run: corepack pnpm run test:server
 
   e2e:
     needs: quality
@@ -66,18 +69,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: corepack pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: npx playwright install --with-deps ${{ matrix.browser }}
+        run: corepack pnpm exec playwright install --with-deps ${{ matrix.browser }}
 
       - name: Install Playwright browsers (macOS)
         if: matrix.os == 'macos-latest'
-        run: npx playwright install ${{ matrix.browser }}
+        run: corepack pnpm exec playwright install ${{ matrix.browser }}
 
       - name: End-to-end tests
-        run: npm run test:e2e -- --project=${{ matrix.project }}
+        run: corepack pnpm run test:e2e -- --project=${{ matrix.project }}

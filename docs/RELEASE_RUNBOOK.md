@@ -7,7 +7,7 @@ This repository uses Git tags + GitHub Releases + `pnpm publish`. Follow this or
 - Local worktree is clean: `git status`
 - CI is green on `main`
 - You can push tags and create releases in GitHub
-- You are authenticated to npm for `@aureuma`
+- You have SI Vault access for the repo-local secret file when publishing locally
 - Publish access is confirmed:
   - `pnpm whoami`
   - `pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'`
@@ -63,8 +63,11 @@ Preferred path:
 
 Fallback local path (only if needed):
 
-1. `pnpm whoami`
-1. `pnpm publish --access public --provenance`
+1. Store the encrypted token in `safe/svelta-docs/.env.prod` under `NPM_TOKEN`.
+1. Run:
+   - `tools/release/npm/publish-npm-from-vault.sh --version vX.Y.Z`
+1. For a rehearsal without publishing:
+   - `tools/release/npm/publish-npm-from-vault.sh --version vX.Y.Z --dry-run`
 
 ## 7. Create GitHub Release
 
