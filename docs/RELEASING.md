@@ -128,7 +128,7 @@ pnpm view @aureuma/svelta-docs version
 
 Workflow `.github/workflows/npm-release-assets.yml` runs on GitHub Release publish and uploads:
 
-- `aureuma-svelta-<version>.tgz`
+- `aureuma-svelta-docs-<version>.tgz`
 - `checksums.txt`
 
 It enforces version/tag parity using `tools/release/validate-release-version.sh`.
