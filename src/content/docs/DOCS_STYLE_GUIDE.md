@@ -36,8 +36,8 @@ Every command or integration page should follow this order:
 Mintlify-specific expectations:
 
 - Include frontmatter with at least `title` and `description`.
-- Keep page paths stable; update `docs.json` when files are moved or renamed.
-- Prefer the `navigation.tabs -> groups -> pages` pattern in `docs.json` for large doc sets.
+- Keep page paths stable; update `src/lib/data/aureuma-docs.json` when files are moved or renamed.
+- Prefer the `navigation.tabs -> groups -> pages` pattern in `src/lib/data/aureuma-docs.json` for large doc sets.
 
 ## Heading and section conventions
 
@@ -94,7 +94,7 @@ For any integration that touches credentials, billing, or production mutation:
 ## Contributor workflow
 
 1. Propose IA changes in a ticket under `tickets/`.
-2. Update docs page(s) and navigation in `docs.json` together.
+2. Update docs page(s) and navigation in `src/lib/data/aureuma-docs.json` together.
 3. Run `si mintlify validate` and `si mintlify broken-links`.
 4. Keep commits scoped (foundation vs provider docs vs polish).
 

@@ -12,7 +12,7 @@
 
     <div class="flex items-center justify-between gap-6 md:justify-end">
       <a
-        href="/docs/overview"
+        href="/docs"
         class="text-xs font-mono uppercase tracking-[0.6px] text-text-sub transition hover:text-text-main"
       >
         Overview

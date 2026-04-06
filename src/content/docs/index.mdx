@@ -21,6 +21,7 @@ SI is an operations-first CLI that combines secure secrets, integration bridges,
 
 ### Commands and tooling
 
+- [Nucleus](./NUCLEUS)
 - [CLI Reference](./CLI_REFERENCE)
 - [Command Reference](./COMMAND_REFERENCE)
 - [Vault](./VAULT)
@@ -44,10 +45,11 @@ SI is an operations-first CLI that combines secure secrets, integration bridges,
 - [Release Runbook](./RELEASE_RUNBOOK)
 - [Homebrew Core Readiness](./HOMEBREW_CORE)
 - [Testing](./testing)
+- [Host Test Matrix](./HOST_TEST_MATRIX)
 
 ## Best-practice workflow for docs updates
 
 1. Update or add the relevant page.
-2. Update `docs.json` navigation at the same time.
+2. Update `src/lib/data/aureuma-docs.json` navigation at the same time.
 3. Run `si mintlify validate`.
 4. Run `si mintlify broken-links` before publishing.

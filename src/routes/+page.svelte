@@ -17,10 +17,16 @@
         Open Docs
       </a>
       <a
-        href="/docs/overview"
+        href="/docs"
         class="inline-flex items-center justify-center rounded-full border border-border-soft/15 bg-background-soft px-5 py-2 text-sm font-medium text-text-main transition hover:bg-background-main/60"
       >
         Read Overview
+      </a>
+      <a
+        href="/docs/NUCLEUS"
+        class="inline-flex items-center justify-center rounded-full border border-border-soft/15 bg-background-soft px-5 py-2 text-sm font-medium text-text-main transition hover:bg-background-main/60"
+      >
+        Open Nucleus
       </a>
       <a
         href="/docs/search"

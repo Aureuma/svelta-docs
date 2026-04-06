@@ -88,4 +88,4 @@ si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-prefl
 - If a flag belongs to the native `fort` CLI, pass it after `--` (example: `si fort -- --host https://fort.aureuma.ai doctor`).
 - Prefer `--json` for automation and auditability.
 - Run `doctor` commands before mutating production systems.
-- Keep docs and `docs.json` navigation in sync.
+- Keep docs and `src/lib/data/aureuma-docs.json` navigation in sync.

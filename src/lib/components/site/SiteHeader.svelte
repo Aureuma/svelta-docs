@@ -5,8 +5,8 @@
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Docs', href: '/docs' },
-    { label: 'Overview', href: '/docs/overview' },
-    { label: 'Getting Started', href: '/docs/getting-started' }
+    { label: 'Nucleus', href: '/docs/NUCLEUS' },
+    { label: 'CLI', href: '/docs/CLI_REFERENCE' }
   ];
 
   function isActive(path: string) {
