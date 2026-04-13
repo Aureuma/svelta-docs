@@ -27,11 +27,12 @@ Architecture boundary:
 - `si fort` wraps the native `fort` binary and keeps runtime auth file-based.
 - Host bootstrap/admin auth for `si spawn` agent provisioning resolves from:
   - `FORT_BOOTSTRAP_TOKEN_FILE` (default: `~/.si/fort/bootstrap/admin.token`)
-- Runtime container sessions use:
-  - `FORT_TOKEN_PATH` (short-lived access token file)
-  - `FORT_REFRESH_TOKEN_PATH` (rotating refresh token file)
+- Runtime Codex profile sessions use:
+  - `CODEX_HOME/fort/access.token` (short-lived access token file)
+  - `CODEX_HOME/fort/refresh.token` (rotating refresh token file)
 - Wrapper behavior:
-  - auto-refreshes runtime token sessions when refresh file and hosted endpoint are available
+  - auto-refreshes managed Codex profile runtime token sessions in place
+  - does not accept caller-supplied `FORT_TOKEN_PATH` / `FORT_REFRESH_TOKEN_PATH` as normal runtime fallbacks
   - uses token-file auth flow (no bearer token argv injection)
   - rejects deprecated token-value env vars (`FORT_TOKEN`, `FORT_REFRESH_TOKEN`)
   - strips legacy token env entries from child process env if present

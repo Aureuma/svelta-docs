@@ -104,7 +104,7 @@ This matrix validates:
 - profile-scoped Fort agent auth bootstrap in `si spawn`
 - hosted Fort endpoint flow (configured via `~/.si/fort/settings.toml` `[fort].host`) as the default runtime target
 - host-side bootstrap admin token resolved from `FORT_BOOTSTRAP_TOKEN_FILE` (default `~/.si/fort/bootstrap/admin.token`)
-- runtime token-path flow in containers via `FORT_TOKEN_PATH` + `FORT_REFRESH_TOKEN_PATH`
+- runtime token-path flow through managed Codex profile `CODEX_HOME/fort/` token files
 - in-container access through `si run` with no `FORT_TOKEN`/`FORT_REFRESH_TOKEN` secret env leakage
 - strict token file modes/ownership (`0600` files, `0700` fort state dir)
 - policy allow/deny behavior across multiple profiles and repo/env bindings
@@ -128,15 +128,15 @@ chmod 600 ~/.si/fort/bootstrap/admin.token
 chmod 700 ~/.si/fort/bootstrap
 ```
 
-Runtime session token file requirements (container flow):
+Runtime session token file requirements:
 
 ```bash
-# injected per profile/session by si spawn + si respawn --volumes
-$FORT_TOKEN_PATH
-$FORT_REFRESH_TOKEN_PATH
+# managed per profile/session by si codex spawn + si codex shell
+$CODEX_HOME/fort/access.token
+$CODEX_HOME/fort/refresh.token
 
 # both must remain regular 0600 files
-stat -c "%a %n" "$FORT_TOKEN_PATH" "$FORT_REFRESH_TOKEN_PATH"
+stat -c "%a %n" "$CODEX_HOME/fort/access.token" "$CODEX_HOME/fort/refresh.token"
 ```
 
 Wrapper reminder:

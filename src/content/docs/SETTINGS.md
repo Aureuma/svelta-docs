@@ -97,7 +97,7 @@ CLI and runtime behavior:
 - `si fort config show` reads these values.
 - `si fort config set ...` writes these values to settings.
 - Wrapper bootstrap/admin auth resolves from `FORT_BOOTSTRAP_TOKEN_FILE` (default `~/.si/fort/bootstrap/admin.token`).
-- Runtime container token state resolves from `FORT_TOKEN_PATH` and `FORT_REFRESH_TOKEN_PATH`.
+- Runtime Codex profile token state resolves from `CODEX_HOME/fort/access.token` and `CODEX_HOME/fort/refresh.token`; caller-supplied Fort token path env vars are not normal runtime fallbacks.
 
 ### `[dyad]`
 Defaults for dyad spawns.
