@@ -1,5 +1,17 @@
 # Aureuma Mintlify Parity Plan for Svelta Docs
 
+Status: completed
+Updated: 2026-04-16
+
+This plan is now a completion record.
+
+Completed outcome:
+
+- `svelta-docs` ships the Aureuma-style docs shell with tabs, grouped sidebar navigation, TOC, search trigger, and adjacent-page navigation
+- the docs corpus, navigation model, and config-driven shell work in the standalone docs repo
+- parity validation has been exercised through local checks and current CI
+- remaining repo work from this plan: none
+
 ## Goal
 Make `svelta-docs` capable of reproducing the Aureuma Mintlify docs shell and content model with a config-driven implementation rather than a one-off theme fork.
 
