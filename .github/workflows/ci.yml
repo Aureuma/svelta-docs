@@ -98,4 +98,6 @@ jobs:
         run: corepack pnpm exec playwright install ${{ matrix.browser }}
 
       - name: End-to-end tests
-        run: corepack pnpm run test:e2e -- --project=${{ matrix.project }}
+        run: |
+          corepack pnpm run test:guard
+          corepack pnpm exec playwright test --project=${{ matrix.project }}
