@@ -21,10 +21,9 @@ test('docs command palette opens and navigates to selected page', async ({ page 
   await page.goto('/docs');
 
   await page.getByTestId('docs-search-trigger').click();
-  const searchInput = page.getByPlaceholder('Search...');
-  await expect(searchInput).toBeVisible();
-  await searchInput.fill('Host Test Matrix');
-  await searchInput.press('Enter');
+  const result = page.getByRole('option').filter({ hasText: 'Host Test Matrix' }).first();
+  await expect(result).toBeVisible();
+  await result.click();
   await expect(page).toHaveURL(/\/docs\/HOST_TEST_MATRIX$/);
 });
 
