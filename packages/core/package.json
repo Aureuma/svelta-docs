@@ -1,6 +1,5 @@
 {
   "name": "@aureuma/svelta-docs-core",
-  "version": "0.1.9",
   "private": true,
   "type": "module",
   "files": [
