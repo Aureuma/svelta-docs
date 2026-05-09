@@ -100,7 +100,6 @@ Profile metadata tracked in settings.
 Worker-slot behavior is command-level:
 
 - `si codex spawn|respawn --worker-slot <slot>`
-- `si codex spawn|respawn --count <n>`
 - `si codex shell|tail|tmux|remove --worker-slot <slot>`
 
 ##### `[codex.profiles.entries.<id>]`
