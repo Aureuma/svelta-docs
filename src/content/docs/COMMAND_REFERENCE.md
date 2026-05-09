@@ -20,7 +20,7 @@ si <command> <subcommand> --help
 | Command family | Primary purpose | Major subcommands | Detailed guide |
 | --- | --- | --- | --- |
 | `si dyad` | Manage actor/critic pairs | `spawn`, `list`, `status`, `peek`, `exec`, `logs`, `start`, `stop`, `restart`, `remove`, `cleanup` | [Dyad](./DYAD) |
-| codex lifecycle (`si spawn`, `si run`, etc.) | Manage codex containers and one-off runs | `spawn`, `respawn`, `status`, `report`, `run`, `warmup` | [CLI Reference](./CLI_REFERENCE) |
+| `si codex` lifecycle | Manage codex profile workers, slots, and one-off runs | `spawn`, `respawn`, `list`, `shell`, `tail`, `tmux`, `remove`, `run`, `warmup` | [CLI Reference](./CLI_REFERENCE) |
 | `si vault` (`si creds`) | Encrypt and inject dotenv secrets | `keypair`, `status`, `check`, `hooks`, `encrypt`, `decrypt`, `restore`, `set`, `unset`, `get`, `list`, `run`, `docker exec` | [Vault](./VAULT) |
 | `si fort` | Wrapper for hosted Fort policy/auth API (runtime secret access path) | `doctor`, `auth`, `get`, `set`, `list`, `batch-get`, `run`, `agent`, `config show`, `config set` | [Vault](./VAULT) |
 | `si surf` | Dockerized Playwright MCP runtime | `build`, `start`, `status`, `logs`, `proxy` | [Browser](./BROWSER) |
@@ -79,7 +79,16 @@ si github doctor --json
 si cloudflare doctor --json
 ```
 
-### 3. Release maintainer preflight
+### 3. Multi-worker Codex profile check
+
+```bash
+si codex spawn --profile <profile> --worker-slot primary --workspace "$PWD"
+si codex spawn --profile <profile> --worker-slot review --workspace "$PWD"
+si codex list
+si codex remove --profile <profile> --worker-slot review
+```
+
+### 4. Release maintainer preflight
 
 ```bash
 si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-preflight

@@ -21,7 +21,7 @@ si <command> <subcommand> --help
 
 | Domain | Commands |
 | --- | --- |
-| Runtime and orchestration | `si dyad`, codex lifecycle (`si spawn`, `si run`, `si status`, `si report`) |
+| Runtime and orchestration | `si dyad`, `si codex` lifecycle (`spawn`, `respawn`, `list`, `shell`, `tail`, `tmux`, `remove`, `run`, `warmup`) |
 | Secrets and context | `si vault` (`si creds`), `si fort` |
 | Integration bridges | `si github`, `si cloudflare`, `si gcp`, `si aws`, `si openai`, `si oci`, `si google`, `si social`, `si workos`, `si apple appstore`, `si stripe`, `si publish`, `si releasemind` (`si release`) |
 | Provider telemetry | `si providers` |
@@ -39,6 +39,17 @@ si <command> <subcommand> --help
 si build image
 si dyad spawn app-hardening --profile main
 si dyad status app-hardening
+```
+
+### Codex multi-slot runtime
+
+```bash
+si codex spawn --profile <profile> --workspace "$PWD"
+si codex spawn --profile <profile> --worker-slot review --workspace "$PWD"
+si codex spawn --profile <profile> --count 3 --workspace "$PWD"
+si codex list
+si codex shell --profile <profile> --worker-slot review -- bash
+si codex remove --profile <profile> --worker-slot review
 ```
 
 ### Viva tunnel via SI wrapper

@@ -25,9 +25,9 @@ The file is a standard TOML document. `schema_version` is reserved for future mi
 ### `[paths]`
 Reference paths for the local `.si` directory layout.
 - `paths.root` (string): default `~/.si`
-- `paths.settings` (string): default `~/.si/settings.toml`
+- `paths.settings_file` (string): default `~/.si/settings.toml`
 - `paths.codex_profiles_dir` (string): default `~/.si/codex/profiles`
-- `paths.workspace_root` (string): optional host directory containing sibling repos. Used by commands such as `si github git ...`, `si remote-control`, and `si viva node bootstrap` when flags are omitted.
+- `paths.workspace_root` (string): optional host directory containing sibling repos. Used by commands such as `si orbit github git ...` and `si remote-control` when flags are omitted.
 
 Warmup runtime files are also stored under `~/.si`:
 - `~/.si/warmup/state.json` (reconcile state/feedback loop)
@@ -36,6 +36,25 @@ Warmup runtime files are also stored under `~/.si`:
 - `~/.si/logs/warmup.log` (JSONL operational log)
 
 Warmup scheduling is auto-enabled once SI sees cached codex auth for a profile, and it is also triggered by `si login` or explicit `si warmup enable`.
+
+## Nucleus gateway discovery and auth
+
+`si nucleus ...` does not currently use a dedicated `[nucleus]` table in `~/.si/settings.toml`.
+Its local gateway discovery and auth contract is environment- and metadata-based instead:
+
+1. `--endpoint`
+2. `SI_NUCLEUS_WS_ADDR`
+3. `~/.si/nucleus/gateway/metadata.json`
+4. default `ws://127.0.0.1:4747/ws`
+
+Additional env vars:
+
+- `SI_NUCLEUS_AUTH_TOKEN`: bearer token forwarded by CLI gateway clients when set
+- `SI_NUCLEUS_STATE_DIR`: override the Nucleus state root for service/runtime commands
+- `SI_NUCLEUS_BIND_ADDR`: override the Nucleus bind address for service/runtime commands
+- `SI_NUCLEUS_PROFILE_MAX_WORKERS`: default max worker slots per profile for dispatch (`1` when unset)
+- `SI_NUCLEUS_PROFILE_MAX_WORKERS_<PROFILE>`: per-profile max override where `<PROFILE>` is uppercased and `-` is replaced with `_`
+- `SI_NUCLEUS_SERVICE_PLATFORM`: force service generation to `systemd-user` or `launchd-agent`
 
 ### `[codex]`
 Defaults for Codex container commands (spawn/respawn/login/run).
@@ -78,6 +97,12 @@ Defaults for one-off `si run` (alias `si exec`).
 Profile metadata tracked in settings.
 - `codex.profiles.active` (string): the last profile used for login
 
+Worker-slot behavior is command-level:
+
+- `si codex spawn|respawn --worker-slot <slot>`
+- `si codex spawn|respawn --count <n>`
+- `si codex shell|tail|tmux|remove --worker-slot <slot>`
+
 ##### `[codex.profiles.entries.<id>]`
 Per-profile entry keyed by profile ID (for example `america`). These entries are updated on successful `si login`.
 - `name` (string): profile display name
@@ -91,13 +116,16 @@ Defaults for the `si fort` wrapper (hosted Fort API access).
 - `fort.bin` (string): fort binary path used by wrapper execution
 - `fort.build` (bool): default build-before-run behavior for wrapper calls
 - `fort.host` (string): hosted Fort endpoint URL (must be HTTPS for production runtime)
-- `fort.container_host` (string): Fort endpoint URL intended for runtime containers (defaults to `fort.host` when unset)
+- `fort.runtime_host` (string): Fort endpoint URL intended for runtime workers (defaults to `fort.host` when unset)
 
 CLI and runtime behavior:
 - `si fort config show` reads these values.
 - `si fort config set ...` writes these values to settings.
 - Wrapper bootstrap/admin auth resolves from `FORT_BOOTSTRAP_TOKEN_FILE` (default `~/.si/fort/bootstrap/admin.token`).
-- Runtime Codex profile token state resolves from `CODEX_HOME/fort/access.token` and `CODEX_HOME/fort/refresh.token`; caller-supplied Fort token path env vars are not normal runtime fallbacks.
+- Runtime Codex token state is file-backed under:
+  - `~/.si/codex/profiles/<profile>/fort/` for `primary`
+  - `~/.si/codex/profiles/<profile>/workers/<slot>/fort/` for non-primary slots
+  and caller-supplied Fort token path env vars are not normal runtime fallbacks.
 
 ### `[dyad]`
 Defaults for dyad spawns.

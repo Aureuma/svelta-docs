@@ -103,6 +103,28 @@ The bounded REST surface is exposed by the same Nucleus service and source of tr
 
 `/openapi.json` is OpenAPI 3.1 and includes summaries, descriptions, schemas, and `x-si-purpose` annotations for bounded external consumers.
 
+## Task profile and worker-slot assignment
+
+Nucleus dispatches each task to one profile and one worker slot.
+
+Priority order:
+
+1. requested `profile`, when present
+2. profiles with ready workers, sorted deterministically
+3. configured profile records
+4. profiles attached to reusable sessions
+5. profiles with non-ready workers as last resort
+
+Worker slot behavior:
+
+1. default slot is `primary`
+2. `worker.probe` and `session.create` accept `worker_slot`
+3. scheduler prefers an idle worker slot for the selected profile
+4. explicit-profile tasks can run concurrently under one profile when multiple slots exist
+5. profile pool size defaults to one and is controlled by:
+   - `SI_NUCLEUS_PROFILE_MAX_WORKERS=<n>`
+   - `SI_NUCLEUS_PROFILE_MAX_WORKERS_<PROFILE>=<n>` where `<PROFILE>` is uppercased and `-` becomes `_`
+
 ## Security and auth
 
 Default behavior:
