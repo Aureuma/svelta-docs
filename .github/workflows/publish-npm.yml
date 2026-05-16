@@ -80,4 +80,4 @@ jobs:
       - name: Skip notice (missing NPM token)
         if: steps.publish_guard.outputs.publish != 'true'
         run: |
-          echo "NPM_TOKEN is not configured; skipping npm publish."
+          echo "NPM_TOKEN is not configured; skipping corepack pnpm publish."
