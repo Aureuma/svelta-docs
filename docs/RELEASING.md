@@ -52,7 +52,7 @@ pnpm whoami
 Recommended registry permission check:
 
 ```bash
-pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
+pnpm access ls-packages <your-package-user-or-team> | grep '@aureuma/svelta-docs'
 ```
 
 ### 1) Determine version and release title
@@ -96,10 +96,10 @@ git push origin main
 git push origin vX.Y.0
 ```
 
-### 7) Publish to npm (npmjs first)
+### 7) Publish package (registry first)
 
 ```bash
-tools/release/npm/publish-npm-from-vault.sh --version vX.Y.0
+tools/release/npm/publish-package-from-vault.sh --version vX.Y.0
 pnpm view @aureuma/svelta-docs version
 ```
 

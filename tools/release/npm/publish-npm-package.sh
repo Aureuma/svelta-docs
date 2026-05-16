@@ -6,7 +6,7 @@ usage() {
 Publish the package to npmjs with pnpm.
 
 Usage:
-  tools/release/npm/publish-npm-package.sh \
+  tools/release/npm/publish-package-package.sh \
     [--version <vX.Y.Z>] \
     [--repo-root <path>] \
     [--tag <dist-tag>] \
@@ -89,7 +89,7 @@ if [[ -z "${token}" ]]; then
   if [[ "${dry_run}" -eq 0 ]]; then
     die "NODE_AUTH_TOKEN or NPM_TOKEN must be set"
   fi
-  echo "warning: running dry-run without npm token" >&2
+  echo "warning: running dry-run without package token" >&2
 fi
 
 cmd=(corepack pnpm publish --access public --tag "${dist_tag}" --no-git-checks)

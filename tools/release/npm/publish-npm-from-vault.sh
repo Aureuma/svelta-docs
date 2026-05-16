@@ -3,10 +3,10 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Publish the package using an npm token resolved through SI Vault.
+Publish the package using a package token resolved through SI Vault.
 
 Usage:
-  tools/release/npm/publish-npm-from-vault.sh \
+  tools/release/npm/publish-package-from-vault.sh \
     [--env-file <path>] \
     [--token-key <key>] \
     [--version <vX.Y.Z>] \
@@ -83,11 +83,11 @@ done
 
 require_cmd corepack
 require_cmd bash
-require_cmd "${repo_root}/tools/release/npm/publish-npm-package.sh"
+require_cmd "${repo_root}/tools/release/npm/publish-package-package.sh"
 require_cmd /home/shawn/Development/si/si
 [[ -f "${env_file}" ]] || die "vault env file not found: ${env_file}"
 
-cmd=("${repo_root}/tools/release/npm/publish-npm-package.sh" --repo-root "${repo_root}" --tag "${dist_tag}")
+cmd=("${repo_root}/tools/release/npm/publish-package-package.sh" --repo-root "${repo_root}" --tag "${dist_tag}")
 if [[ -n "${version}" ]]; then
   cmd+=(--version "${version}")
 fi

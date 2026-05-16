@@ -52,7 +52,7 @@ corepack pnpm whoami
 Recommended registry permission check:
 
 ```bash
-corepack pnpm access ls-packages <your-npm-user-or-team> | grep '@aureuma/svelta-docs'
+corepack pnpm access ls-packages <your-package-user-or-team> | grep '@aureuma/svelta-docs'
 ```
 
 ### 1) Determine version and release title
@@ -79,7 +79,7 @@ corepack pnpm install --frozen-lockfile
 corepack pnpm run check
 tools/release/validate-release-version.sh --tag vX.Y.0
 tools/release/build-npm-release-assets.sh --version vX.Y.0 --out-dir .artifacts/release-preflight
-tools/release/npm/publish-npm-package.sh --version vX.Y.0 --dry-run
+tools/release/npm/publish-package-package.sh --version vX.Y.0 --dry-run
 ```
 
 ### 5) Commit and tag
@@ -97,7 +97,7 @@ git push origin main
 git push origin vX.Y.0
 ```
 
-### 7) Publish to npm
+### 7) Publish package
 
 Preferred path:
 
@@ -109,7 +109,7 @@ corepack pnpm view @aureuma/svelta-docs version
 Fallback local path using SI Vault:
 
 ```bash
-tools/release/npm/publish-npm-from-vault.sh --version vX.Y.0
+tools/release/npm/publish-package-from-vault.sh --version vX.Y.0
 corepack pnpm view @aureuma/svelta-docs version
 ```
 

@@ -29,5 +29,5 @@ pnpm run dev
 ## Package
 
 ```sh
-npm i @aureuma/svelta-docs
+corepack pnpm add @aureuma/svelta-docs
 ```
