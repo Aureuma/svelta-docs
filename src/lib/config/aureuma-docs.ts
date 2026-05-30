@@ -1,58 +1,26 @@
 import rawDocsConfig from '$lib/data/aureuma-docs.json';
 import type { DocsPage } from '$lib/types/docs';
-
-type RawDocsConfig = {
-	name: string;
-	theme: string;
-	colors: {
-		primary: string;
-		light: string;
-		dark: string;
-	};
-	favicon?: string;
-	logo?: {
-		light?: string;
-		dark?: string;
-	};
-	navigation?: {
-		global?: {
-			anchors?: Array<{
-				anchor: string;
-				href: string;
-			}>;
-		};
-		tabs?: Array<{
-			tab: string;
-			groups?: Array<{
-				group: string;
-				pages?: string[];
-			}>;
-		}>;
-	};
-};
+import {
+	docsHrefFromSlug as coreDocsHrefFromSlug,
+	parseSveltaDocsConfig,
+	slugFromDocsPageKey,
+	type SveltaDocsPageRef
+} from '@aureuma/svelta-docs';
 
 export type AureumaDocsAnchor = {
 	label: string;
 	href: string;
 };
 
-export type AureumaDocsPageRef = {
-	pageKey: string;
-	slug: string;
-	href: string;
-	tabId: string;
-	tabLabel: string;
-	tabOrder: number;
-	groupId: string;
-	groupLabel: string;
-	groupOrder: number;
-	pageOrder: number;
-};
+export type AureumaDocsPageRef = SveltaDocsPageRef;
 
 export type AureumaDocsGroup = {
 	id: string;
 	label: string;
 	order: number;
+	icon?: string;
+	tag?: string;
+	expanded?: boolean;
 	pages: DocsPage[];
 };
 
@@ -60,13 +28,20 @@ export type AureumaDocsTab = {
 	id: string;
 	label: string;
 	order: number;
+	icon?: string;
+	tag?: string;
+	root?: string;
 	groups: AureumaDocsGroup[];
 };
 
 export type AureumaDocsNavigation = {
 	name: string;
 	theme: string;
-	colors: RawDocsConfig['colors'];
+	colors: {
+		primary: string;
+		light: string;
+		dark: string;
+	};
 	favicon: string;
 	logo: {
 		light: string;
@@ -76,49 +51,21 @@ export type AureumaDocsNavigation = {
 	tabs: AureumaDocsTab[];
 };
 
-const docsConfig = rawDocsConfig as RawDocsConfig;
-
-function slugify(input: string): string {
-	return input
-		.toLowerCase()
-		.trim()
-		.replace(/['"]/g, '')
-		.replace(/[^a-z0-9]+/g, '-')
-		.replace(/^-+|-+$/g, '');
-}
+const docsConfig = parseSveltaDocsConfig(rawDocsConfig);
 
 export function slugFromPageKey(pageKey: string): string {
-	return pageKey.replace(/^docs\//, '');
+	return slugFromDocsPageKey(pageKey);
 }
 
 export function docsHrefFromSlug(slug: string): string {
-	return slug === 'index' ? '/docs' : `/docs/${slug}`;
+	return coreDocsHrefFromSlug(slug);
 }
 
 export function docsHrefFromPageKey(pageKey: string): string {
 	return docsHrefFromSlug(slugFromPageKey(pageKey));
 }
 
-const pageRefs: AureumaDocsPageRef[] =
-	docsConfig.navigation?.tabs?.flatMap((tab, tabOrder) =>
-		(tab.groups ?? []).flatMap((group, groupOrder) =>
-			(group.pages ?? []).map((pageKey, pageOrder) => {
-				const slug = slugFromPageKey(pageKey);
-				return {
-					pageKey,
-					slug,
-					href: docsHrefFromSlug(slug),
-					tabId: slugify(tab.tab),
-					tabLabel: tab.tab,
-					tabOrder,
-					groupId: slugify(group.group),
-					groupLabel: group.group,
-					groupOrder,
-					pageOrder
-				};
-			})
-		)
-	) ?? [];
+const pageRefs: AureumaDocsPageRef[] = docsConfig.navigation.pageRefs;
 
 export const aureumaDocsTheme = docsConfig.theme;
 export const aureumaDocsColors = docsConfig.colors;
@@ -128,13 +75,13 @@ export const aureumaDocsLogo = {
 	dark: docsConfig.logo?.dark ?? '/docs/images/branding/aureuma-logo-light.png'
 };
 export const aureumaDocsAnchors: AureumaDocsAnchor[] =
-	docsConfig.navigation?.global?.anchors?.map((anchor) => ({
-		label: anchor.anchor,
-		href: anchor.href
+	docsConfig.navigation.anchors.map((anchor) => ({
+		label: anchor.label,
+		href: anchor.href ?? '#'
 	})) ?? [];
 
 export const aureumaDocsPageRefs = pageRefs;
-export const aureumaDocsPageRefBySlug = new Map(pageRefs.map((ref) => [ref.slug, ref]));
+export const aureumaDocsPageRefBySlug = docsConfig.navigation.pageRefBySlug;
 
 export function getAureumaDocsPageRef(slug: string): AureumaDocsPageRef | undefined {
 	return aureumaDocsPageRefBySlug.get(slug);
@@ -145,29 +92,37 @@ export function buildAureumaDocsNavigation(pages: DocsPage[]): AureumaDocsNaviga
 	const listed = new Set<string>();
 
 	const tabs: AureumaDocsTab[] =
-		docsConfig.navigation?.tabs?.map((tab, tabOrder) => {
+		docsConfig.navigation.tabs.map((tab) => {
 			const groups: AureumaDocsGroup[] =
-				(tab.groups ?? [])
-					.map((group, groupOrder) => {
-						const groupPages = (group.pages ?? [])
-							.map((pageKey) => pagesBySlug.get(slugFromPageKey(pageKey)))
+				tab.children
+					.filter((child) => child.kind === 'group')
+					.map((group) => {
+						const groupPages = group.children
+							.filter((child) => child.kind === 'page' && child.slug)
+							.map((child) => pagesBySlug.get(child.slug!))
 							.filter((page): page is DocsPage => Boolean(page));
 
 						for (const page of groupPages) listed.add(page.slug);
 
 						return {
-							id: slugify(group.group),
-							label: group.group,
-							order: groupOrder,
+							id: group.id,
+							label: group.label,
+							order: group.order,
+							icon: group.icon,
+							tag: group.tag,
+							expanded: group.expanded,
 							pages: groupPages
 						};
 					})
 					.filter((group) => group.pages.length > 0) ?? [];
 
 			return {
-				id: slugify(tab.tab),
-				label: tab.tab,
-				order: tabOrder,
+				id: tab.id,
+				label: tab.label,
+				order: tab.order,
+				icon: tab.icon,
+				tag: tab.tag,
+				root: tab.root,
 				groups
 			};
 		})

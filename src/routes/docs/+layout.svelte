@@ -204,17 +204,17 @@
 
 <div class="min-h-dvh bg-[radial-gradient(circle_at_top,_rgba(139,240,201,0.14),_transparent_26%),linear-gradient(180deg,_rgba(255,255,255,0.98),_rgba(248,250,249,1))] text-text-main dark:bg-[radial-gradient(circle_at_top,_rgba(15,109,95,0.24),_transparent_20%),linear-gradient(180deg,_rgba(12,14,15,1),_rgba(10,13,13,1))]">
   <div class="border-b border-border-soft/10 bg-emerald-500/10 px-4 py-2 lg:px-8">
-    <div class="mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-center gap-2 text-[11px] font-mono uppercase tracking-[0.14em] text-text-main lg:justify-between">
-      <div class="flex flex-wrap items-center justify-center gap-2">
+    <div class="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-2 overflow-x-auto text-[11px] font-mono uppercase tracking-[0.14em] text-text-main">
+      <div class="flex min-w-max items-center gap-2">
         <span class="rounded-full border border-border-soft/10 bg-background-main/40 px-2.5 py-1">
           {data.defaultDocsVersion.label} / {data.defaultDocsLocale.label}
         </span>
         <a href="/docs/search" class="rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50">Search</a>
-        <a href={data.searchProvider.endpoint} class="rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50">API</a>
-        <a href="/docs/versions" class="rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50">Versions</a>
-        <a href="/docs/locales" class="rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50">Locales</a>
+        <a href={data.searchProvider.endpoint} class="hidden rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50 sm:inline-flex">API</a>
+        <a href="/docs/versions" class="hidden rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50 sm:inline-flex">Versions</a>
+        <a href="/docs/locales" class="hidden rounded-full border border-border-soft/10 px-2.5 py-1 transition hover:bg-background-main/50 sm:inline-flex">Locales</a>
       </div>
-      <span class="text-text-muted">Backend: {data.searchProvider.label}</span>
+      <span class="hidden shrink-0 text-text-muted sm:inline">Backend: {data.searchProvider.label}</span>
     </div>
   </div>
   <header class="sticky top-0 z-50 border-b border-border-soft/10 bg-background-main/78 shadow-[0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-xl supports-[backdrop-filter]:bg-background-main/66">

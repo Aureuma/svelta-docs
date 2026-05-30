@@ -8,7 +8,7 @@
 <div class="mt-12 grid grid-cols-1 gap-3 border-t border-border-soft/10 pt-6 md:grid-cols-2" data-testid="docs-pager">
 	<a
 		href={previous ? `/docs/${previous.slug}` : '#'}
-		class="rounded-2xl border border-border-soft/10 bg-background-soft p-4 transition hover:bg-background-main/60 {previous
+		class="rounded-2xl border border-border-soft/10 bg-background-soft/75 p-4 transition hover:border-brand/25 hover:bg-background-main/60 {previous
 			? ''
 			: 'pointer-events-none opacity-45'}"
 	>
@@ -18,7 +18,7 @@
 
 	<a
 		href={next ? `/docs/${next.slug}` : '#'}
-		class="rounded-2xl border border-border-soft/10 bg-background-soft p-4 text-left transition hover:bg-background-main/60 {next
+		class="rounded-2xl border border-border-soft/10 bg-background-soft/75 p-4 text-left transition hover:border-brand/25 hover:bg-background-main/60 {next
 			? ''
 			: 'pointer-events-none opacity-45'}"
 	>

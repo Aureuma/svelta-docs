@@ -32,7 +32,7 @@
   "main": "./dist/index.js",
   "svelte": "./dist/index.js",
   "license": "MIT",
-  "packageManager": "pnpm@latest",
+  "packageManager": "pnpm@10.33.0",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Aureuma/svelta-docs.git",
