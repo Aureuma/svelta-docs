@@ -307,6 +307,16 @@
 
       {#if docsPattern.search.enabled}
         <button
+          id="search-bar-entry-mobile"
+          type="button"
+          class="inline-flex size-10 items-center justify-center rounded-2xl border border-border-soft/10 bg-background-soft text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:hidden"
+          aria-label="Open search"
+          onclick={() => (searchOpen = true)}
+        >
+          <SearchIcon class="size-4" />
+        </button>
+
+        <button
           type="button"
           class="hidden h-10 min-w-[320px] items-center justify-between rounded-2xl border border-border-soft/10 bg-background-soft/80 px-3 text-sm text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:inline-flex"
           data-testid="docs-search-trigger"

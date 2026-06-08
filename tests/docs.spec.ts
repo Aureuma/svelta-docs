@@ -68,3 +68,12 @@ test('mobile docs navigation opens in a sheet panel', async ({ page }) => {
     page.getByTestId('docs-mobile-nav-panel').getByRole('link', { name: 'Nucleus' }).first()
   ).toBeVisible();
 });
+
+test('mobile docs search launcher opens command palette', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/docs');
+
+  await expect(page.getByRole('button', { name: 'Open search' })).toBeVisible();
+  await page.getByRole('button', { name: 'Open search' }).click();
+  await expect(page.getByRole('combobox')).toBeVisible();
+});
