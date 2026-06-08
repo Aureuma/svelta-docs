@@ -4,6 +4,11 @@ All notable changes to this repository are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project follows [Semantic Versioning](https://semver.org/).
 
+## [v0.2.15] - 2026-06-08
+### Changed
+- Added dedicated coverage for the standalone docs search page route and result rendering behavior.
+- Expanded docs Playwright coverage for keyboard discovery paths.
+
 ## [v0.2.14] - 2026-06-08
 ### Changed
 - Added docs keyboard shortcut parity by opening command search from `/`.

@@ -89,3 +89,15 @@ test('mobile docs search launcher opens command palette', async ({ page }) => {
   await page.getByRole('button', { name: 'Open search' }).click();
   await expect(page.getByRole('combobox')).toBeVisible();
 });
+
+test('docs search page renders index query behavior and provider metadata', async ({ page }) => {
+  await page.goto('/docs/search');
+
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Search the full docs index');
+  await expect(page.getByRole('searchbox')).toHaveAttribute('placeholder', /Search docs content/);
+
+  const searchInput = page.getByRole('searchbox');
+  await searchInput.fill('nucleus');
+  await expect.poll(async () => page.locator('a[href=\"/docs/NUCLEUS\"]').count()).toBeGreaterThan(0);
+  await expect(page.getByText('Provider:')).toBeVisible();
+});
