@@ -88,7 +88,19 @@
   });
 
   function handleKeydown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement | null;
+    const isTypingTarget =
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target?.isContentEditable;
+
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      searchOpen = true;
+      return;
+    }
+
+    if (event.key === '/' && !isTypingTarget) {
       event.preventDefault();
       searchOpen = true;
     }
@@ -309,6 +321,7 @@
         <button
           id="search-bar-entry-mobile"
           type="button"
+          data-testid="docs-search-trigger-mobile"
           class="inline-flex size-10 items-center justify-center rounded-2xl border border-border-soft/10 bg-background-soft text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:hidden"
           aria-label="Open search"
           onclick={() => (searchOpen = true)}
@@ -318,8 +331,9 @@
 
         <button
           type="button"
-          class="hidden h-10 min-w-[320px] items-center justify-between rounded-2xl border border-border-soft/10 bg-background-soft/80 px-3 text-sm text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:inline-flex"
           data-testid="docs-search-trigger"
+          class="hidden h-10 min-w-[320px] items-center justify-between rounded-2xl border border-border-soft/10 bg-background-soft/80 px-3 text-sm text-text-sub transition hover:border-emerald-500/20 hover:text-text-main lg:inline-flex"
+          aria-label="Search docs"
           onclick={() => (searchOpen = true)}
         >
           <span class="inline-flex items-center gap-2">

@@ -17,6 +17,18 @@ test('docs index renders current SI navigation and links into a docs page', asyn
   await expect(page.getByTestId('docs-pager')).toBeVisible();
 });
 
+test('docs search opens via keyboard shortcut including "/"', async ({ page }) => {
+  await page.goto('/docs');
+  await page.locator('body').click();
+
+  await page.keyboard.press('/');
+  await expect(page.getByTestId('docs-command-dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+
+  await page.keyboard.press('Control+K');
+  await expect(page.getByTestId('docs-command-dialog')).toBeVisible();
+});
+
 test('docs command palette opens and navigates to selected page', async ({ page }) => {
   await page.goto('/docs');
 

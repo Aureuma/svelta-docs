@@ -4,6 +4,16 @@ All notable changes to this repository are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project follows [Semantic Versioning](https://semver.org/).
 
+## [v0.2.14] - 2026-06-08
+### Changed
+- Added docs keyboard shortcut parity by opening command search from `/`.
+- Added dedicated search trigger test IDs for desktop/mobile parity checks.
+- Expanded docs Playwright coverage for keyboard discovery paths.
+
+## [v0.2.13] - 2026-06-08
+### Changed
+- Added an accessible label on the desktop docs search trigger and expanded blog/docs parity test coverage around search affordances.
+
 ## [v0.2.12] - 2026-06-08
 ### Changed
 - Added a mobile docs search launcher (`#search-bar-entry-mobile`) that opens the existing command search dialog.
