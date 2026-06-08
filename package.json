@@ -1,7 +1,7 @@
 {
   "name": "@aureuma/svelta-docs",
   "private": false,
-  "version": "0.2.15",
+  "version": "0.2.16",
   "type": "module",
   "files": [
     "packages/core/dist",
@@ -44,7 +44,7 @@
     "preinstall": "node scripts/enforce-pnpm.mjs",
     "dev": "vite dev",
     "build": "vite build",
-    "build:core": "pnpm --filter @aureuma/svelta-docs-core build",
+    "build:core": "node scripts/prepare.mjs && pnpm --filter @aureuma/svelta-docs-core build",
     "preview": "vite preview",
     "host:internal": "pnpm build && pnpm preview -- --host 0.0.0.0 --port 4173",
     "prepare": "node scripts/prepare.mjs",
@@ -57,7 +57,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "changeset publish",
-    "prepack": "pnpm --filter @aureuma/svelta-docs-core build"
+    "prepack": "pnpm build:core"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",

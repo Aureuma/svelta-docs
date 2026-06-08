@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.16] - 2026-06-08
+### Fixed
+- Synced SvelteKit before core package builds so clean checkouts produce stable package artifacts.
+
 ## [0.1.0] - 2026-02-22
 ### Added
 - Added `createRawBlog` support for raw markdown module sources.
