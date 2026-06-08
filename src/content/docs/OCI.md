@@ -12,7 +12,6 @@ description: Oracle Cloud Infrastructure workflows in SI for identity, networkin
 ## Related docs
 
 - [Integrations Overview](./INTEGRATIONS_OVERVIEW)
-- [Vault](./VAULT)
 - [Providers](./PROVIDERS)
 
 ## Command surface

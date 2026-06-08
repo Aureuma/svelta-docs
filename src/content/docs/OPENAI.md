@@ -12,7 +12,6 @@ description: OpenAI integration workflows in SI for auth, projects, keys, usage,
 ## Related docs
 
 - [Integrations Overview](./INTEGRATIONS_OVERVIEW)
-- [Vault](./VAULT)
 - [Providers](./PROVIDERS)
 
 ## Command surface

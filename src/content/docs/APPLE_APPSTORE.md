@@ -12,7 +12,6 @@ description: App Store Connect workflows in SI for auth, context, app metadata, 
 ## Related docs
 
 - [Integrations Overview](./INTEGRATIONS_OVERVIEW)
-- [Vault](./VAULT)
 - [Providers](./PROVIDERS)
 
 ## Command surface
@@ -59,7 +58,7 @@ orbit apple appstore raw --method PATCH --path /v1/appStoreVersionLocalizations/
 
 ## Safety guidance
 
-- Keep JWT issuer/key configuration in vault-managed env variables.
+- Keep JWT issuer/key configuration in Fort-managed env variables.
 - Validate bundle ID and target locale before listing updates.
 - Use `apply` from versioned metadata files for repeatable releases.
 - Treat raw mode as escape hatch for unsupported endpoints.

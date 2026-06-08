@@ -1,6 +1,6 @@
 ---
 title: Integrations Overview
-description: Complete map of SI integration families, capabilities, and command entry points.
+description: Complete map of SI-adjacent integration families, capabilities, and command entry points.
 ---
 
 # Integrations Overview
@@ -72,6 +72,6 @@ This page is the canonical map of current SI-adjacent integration families.
 
 - [CLI Reference](./CLI_REFERENCE)
 - [Settings](./SETTINGS)
-- [Vault](./VAULT)
+- [Vault](./VAULT) for SI Vault maintenance
 - [Orbitals](./ORBITALS)
 - [Documentation Style Guide](./DOCS_STYLE_GUIDE)

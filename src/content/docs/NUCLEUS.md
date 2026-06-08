@@ -163,4 +163,4 @@ Retention and cleanup:
 - [CLI Reference](./CLI_REFERENCE)
 - [Command Reference](./COMMAND_REFERENCE)
 - [Settings](./SETTINGS)
-- [Vault](./VAULT)
+- [Vault](./VAULT) for SI Vault maintenance

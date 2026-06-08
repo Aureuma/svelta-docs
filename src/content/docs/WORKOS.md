@@ -12,7 +12,6 @@ description: WorkOS integration workflows in SI for organizations, users, member
 ## Related docs
 
 - [Integrations Overview](./INTEGRATIONS_OVERVIEW)
-- [Vault](./VAULT)
 - [Providers](./PROVIDERS)
 
 ## Command surface
@@ -68,7 +67,7 @@ orbit workos raw --method POST --path /organizations --json-body '{"name":"Aureu
 - Use environment-specific contexts (`prod|staging|dev`) for separation.
 - Validate organization IDs before membership/invitation writes.
 - Prefer JSON output in CI pipelines.
-- Keep WorkOS keys in vault-managed env refs.
+- Keep WorkOS keys in Fort-managed env refs.
 
 ## Troubleshooting
 

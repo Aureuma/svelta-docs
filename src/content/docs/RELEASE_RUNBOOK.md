@@ -5,7 +5,7 @@ description: Short operational checklist for publishing an Aureuma svelta-docs r
 
 # Release Runbook
 
-Use this runbook for the release-day sequence. Keep release policy, changelog rules, and versioning details in [Releasing](./RELEASING); use [Publish](./PUBLISH) and [Homebrew Core Readiness](./HOMEBREW_CORE) for channel-specific follow-up.
+Use this runbook for the release-day sequence. Keep release policy, changelog rules, and versioning details in [Releasing](./RELEASING); use [Homebrew Core Readiness](./HOMEBREW_CORE) for channel-specific follow-up.
 
 ## 1. Pre-flight
 
@@ -51,4 +51,4 @@ corepack pnpm run build
 - Confirm npm shows the intended version.
 - Confirm the GitHub Release renders the notes and assets correctly.
 - Follow [Homebrew Core Readiness](./HOMEBREW_CORE) if the release needs Homebrew Core preparation.
-- Use [Publish](./PUBLISH) for any launch-channel announcements.
+- Treat launch-channel announcements as manual or automation-specific follow-up until a current publishing surface exists.

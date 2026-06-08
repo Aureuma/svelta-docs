@@ -11,9 +11,9 @@ Related:
 Auth policy:
 - `app` mode: GitHub App installation tokens
 - `oauth` mode: OAuth access token / token-based auth (including PAT-style tokens)
-- Credentials should be injected from `si vault` (or compatible env keys).
+- Credentials should be injected with `si fort` or compatible env keys.
 
-## Credential Keys (Vault-Compatible)
+## Credential Keys (Fort/Env-Compatible)
 
 Per account alias `<ACCOUNT>` (uppercase slug):
 
@@ -60,7 +60,7 @@ Note:
 - `si fort` is the operator-facing secret boundary.
 - Direct `si vault ...` usage is reserved for local SI Vault maintenance.
 
-Optional custom vault scope for helper auth:
+Optional custom helper scope:
 
 ```bash
 orbit github git setup \
@@ -73,7 +73,7 @@ orbit github git setup \
 Common flags:
 - `--remote <name>`: choose a remote other than `origin`
 - `--helper-owner <owner>`: force a fixed owner in helper calls (default derives from remote path)
-- `--no-vault`: use direct env lookup instead of Fort-backed helper calls
+- `--no-vault`: use direct env lookup instead of Fort-backed helper calls; the flag name is retained for compatibility.
 - `--dry-run`: preview remote/helper changes without writing
 
 Helper-only usage (for manual git credential helper wiring):
@@ -82,19 +82,20 @@ Helper-only usage (for manual git credential helper wiring):
 orbit github git credential get
 ```
 
-## Git Remotes (PAT URLs from Vault)
+## Git Remotes (PAT URLs from Fort)
 
 When you need explicit PAT-authenticated remotes (for CI/dev environments that do not use git credential helpers), use:
 
 ```bash
-orbit github git remote-auth \
-  --root ~/Development \
-  --owner Aureuma \
-  --vault-key GH_PAT_AUREUMA_VANGUARDA
+si fort run --repo orbit --env dev --mode env --keys GH_PAT_AUREUMA_VANGUARDA -- \
+  orbit github git remote-auth \
+    --root ~/Development \
+    --owner Aureuma \
+    --vault-key GH_PAT_AUREUMA_VANGUARDA
 ```
 
 This command:
-- reads the PAT from `si vault` using `--vault-key`
+- reads the PAT from Fort-provided env using `--vault-key`
 - rewrites both fetch and push URLs for the target remote (default `origin`) to:
   - `https://<PAT>@github.com/<owner>/<repo>.git`
 - sets local branch upstream tracking so plain `git push` / `git pull` work without extra remote/branch args
@@ -106,12 +107,13 @@ Useful flags:
 - `--dry-run`: preview changes without writing
 - `--json`: structured output for automation
 
-To clone a new repository directly with PAT URL auth sourced from vault:
+To clone a new repository directly with PAT URL auth sourced from Fort:
 
 ```bash
-orbit github git clone-auth Aureuma/GitHubProj \
-  --root ~/Development \
-  --vault-key GH_PAT_AUREUMA_VANGUARDA
+si fort run --repo orbit --env dev --mode env --keys GH_PAT_AUREUMA_VANGUARDA -- \
+  orbit github git clone-auth Aureuma/GitHubProj \
+    --root ~/Development \
+    --vault-key GH_PAT_AUREUMA_VANGUARDA
 ```
 
 `clone-auth` supports either `owner/repo` or full GitHub URL input, rewrites both fetch/push URLs with PAT auth, and sets upstream tracking for plain `git push` / `git pull`.
