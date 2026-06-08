@@ -19,32 +19,26 @@ si <command> <subcommand> --help
 
 | Command family | Primary purpose | Major subcommands | Detailed guide |
 | --- | --- | --- | --- |
-| `si dyad` | Manage actor/critic pairs | `spawn`, `list`, `status`, `peek`, `exec`, `logs`, `start`, `stop`, `restart`, `remove`, `cleanup` | [Dyad](./DYAD) |
 | `si codex` lifecycle | Manage codex profile workers, slots, and one-off runs | `spawn`, `respawn`, `list`, `shell`, `tail`, `tmux`, `remove`, `run`, `warmup` | [CLI Reference](./CLI_REFERENCE) |
-| `si vault` (`si creds`) | Encrypt and inject dotenv secrets | `keypair`, `status`, `check`, `hooks`, `encrypt`, `decrypt`, `restore`, `set`, `unset`, `get`, `list`, `run`, `docker exec` | [Vault](./VAULT) |
+| `si vault` (`si creds`) | SI Vault local maintenance | `keypair`, `status`, `check`, `hooks`, `encrypt`, `decrypt`, `restore`, `set`, `unset`, `get`, `list`, `run`, `docker exec` | [Vault](./VAULT) |
 | `si fort` | Wrapper for hosted Fort policy/auth API (runtime secret access path) | `doctor`, `auth`, `get`, `set`, `list`, `batch-get`, `run`, `agent`, `config show`, `config set` | [Vault](./VAULT) |
 | `si surf` | Dockerized Playwright MCP runtime | `build`, `start`, `status`, `logs`, `proxy` | [Browser](./BROWSER) |
-| `si orbits` | Orbit registry and lifecycle | `list`, `install`, `update`, `enable`, `doctor`, `scaffold`, `policy`, `gateway (build)` | [Orbitals](./ORBITALS) |
+| `si viva` | Viva wrapper | native Viva commands after wrapper options | [CLI Reference](./CLI_REFERENCE) |
 
 ## Provider and integration command families
 
 | Integration | Command family | Typical first checks | Detailed guide |
 | --- | --- | --- | --- |
-| GitHub | `si github ...` | `si github auth status`, `si github doctor`, `si github project list Aureuma` | [GitHub](./GITHUB) |
-| Cloudflare | `si cloudflare ...` | `si cloudflare auth status`, `si cloudflare doctor` | [Cloudflare](./CLOUDFLARE) |
-| GCP + Gemini/Vertex | `si gcp ...` | `si gcp auth status`, `si gcp doctor` | [GCP](./GCP) |
-| Google Places | `si google places ...` | `si google places auth status`, `si google places doctor` | [Google Places](./GOOGLE_PLACES) |
-| Google Play | `si google play ...` | `si google play auth status`, `si google play doctor` | [Google Play](./GOOGLE_PLAY) |
-| YouTube Data | `si google youtube ...` | `si google youtube auth status`, `si google youtube doctor` | [Google YouTube](./GOOGLE_YOUTUBE) |
-| AWS | `si aws ...` | `si aws auth status`, `si aws doctor` | [AWS](./AWS) |
-| OpenAI | `si openai ...` | `si openai auth status`, `si openai doctor` | [OpenAI](./OPENAI) |
-| OCI | `si oci ...` | `si oci auth status`, `si oci doctor` | [OCI](./OCI) |
-| Stripe | `si stripe ...` | `si stripe auth status`, `si stripe doctor` | [Stripe](./STRIPE) |
-| Social APIs | `si social ...` | `si social <platform> auth status`, `doctor` | [Social](./SOCIAL) |
-| WorkOS | `si workos ...` | `si workos auth status`, `si workos doctor` | [WorkOS](./WORKOS) |
-| Apple App Store Connect | `si apple appstore ...` | `si apple appstore auth status`, `doctor` | [Apple App Store](./APPLE_APPSTORE) |
-| Publish flows | `si publish ...` | `si publish catalog list` | [Publish](./PUBLISH) |
-| Provider telemetry | `si providers ...` | `si providers characteristics`, `si providers health` | [Providers](./PROVIDERS) |
+| GitHub | `orbit github ...` | `orbit github doctor` | [GitHub](./GITHUB) |
+| Cloudflare | `orbit cloudflare ...` | `orbit cloudflare doctor` | [Cloudflare](./CLOUDFLARE) |
+| GCP + Gemini/Vertex | `orbit gcp ...` | `orbit gcp doctor` | [GCP](./GCP) |
+| Google APIs | `orbit google ...` | provider-specific doctor commands | [Google Places](./GOOGLE_PLACES) |
+| AWS | `orbit aws ...` | `orbit aws doctor` | [AWS](./AWS) |
+| OpenAI | `orbit openai ...` | `orbit openai doctor` | [OpenAI](./OPENAI) |
+| OCI | `orbit oci ...` | `orbit oci doctor` | [OCI](./OCI) |
+| Stripe | `orbit stripe ...` | `orbit stripe doctor` | [Stripe](./STRIPE) |
+| WorkOS | `orbit workos ...` | `orbit workos doctor` | [WorkOS](./WORKOS) |
+| Apple App Store Connect | `orbit apple ...` | app-store auth checks | [Apple App Store](./APPLE_APPSTORE) |
 
 ## Build, docs, and developer tooling
 
@@ -73,10 +67,9 @@ si mintlify validate
 ### 2. Integration readiness check
 
 ```bash
-si providers characteristics --json
-si providers health --json
-si github doctor --json
-si cloudflare doctor --json
+orbit list --json
+orbit github doctor --json
+orbit cloudflare doctor --json
 ```
 
 ### 3. Multi-worker Codex profile check
@@ -96,8 +89,8 @@ si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-prefl
 
 ## Guardrails
 
-- For host/admin automation, prefer `si vault run -- <cmd>` when a command needs secrets.
-- For SI runtime containers, use `si fort ...` for secret access.
+- Prefer `si fort ...` when a command needs secrets.
+- Keep `si vault ...` for local SI Vault maintenance and implementation debugging.
 - `si fort` bootstrap/admin auth uses `FORT_BOOTSTRAP_TOKEN_FILE`; runtime auth uses managed Codex profile `CODEX_HOME/fort/` token files.
 - Pass native `fort` flags after `--` when invoking through wrapper.
 - Run integration-specific `doctor` commands before write operations.

@@ -178,7 +178,7 @@ After CLI command-surface changes, run targeted help checks:
 ```bash
 ./si --help
 ./si mintlify --help
-./si gcp gemini image generate --help
+orbit gcp gemini image generate --help
 ./si surf --help
 ```
 

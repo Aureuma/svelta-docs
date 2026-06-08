@@ -24,20 +24,20 @@ There is no external rate-limit or quota reference file to maintain.
 
 ## Operational usage
 - Inspect active provider defaults:
-  - `si providers characteristics --json`
+  - `orbit list --json`
 - Inspect runtime traffic/health telemetry:
   - `si integrations health --json`
   - includes API version review warnings/errors
 - Inspect API version policy coverage:
-  - `si providers health --json`
+  - `orbit list --json`
   - includes `version_missing` and `version_invalid` fields
 - Run public connectivity probes:
-  - `si github doctor --public`
-  - `si cloudflare doctor --public`
-  - `si google places doctor --public`
-  - `si google play doctor --public`
-  - `si google youtube doctor --public`
-  - `si stripe doctor --public`
+  - `orbit github doctor --public`
+  - `orbit cloudflare doctor --public`
+  - `orbit google places doctor --public`
+  - `orbit google play doctor --public`
+  - `orbit google youtube doctor --public`
+  - `orbit stripe doctor --public`
 
 ## CI
 - `si-tests` workflow runs full Go tests for `tools/si`.

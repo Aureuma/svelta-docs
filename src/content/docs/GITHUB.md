@@ -1,8 +1,8 @@
-# GitHub Command Guide (`si github`)
+# GitHub Command Guide (`orbit github`)
 
 ![GitHub](/docs/images/integrations/github.svg)
 
-`si github` supports GitHub REST/GraphQL using either GitHub App auth or OAuth token auth.
+`orbit github` supports GitHub REST/GraphQL using either GitHub App auth or OAuth token auth.
 
 Related:
 - [Integrations Overview](./INTEGRATIONS_OVERVIEW)
@@ -40,30 +40,30 @@ Global fallback keys:
 ## Context
 
 ```bash
-si github auth status --account core
-si github auth status --auth-mode oauth --token "$GITHUB_TOKEN"
-si github context list
-si github context current
-si github context use --account core --owner Aureuma --auth-mode app --base-url https://api.github.com
-si github context use --account core --auth-mode oauth --token-env GITHUB_CORE_OAUTH_ACCESS_TOKEN
+orbit github auth status --account core
+orbit github auth status --auth-mode oauth --token "$GITHUB_TOKEN"
+orbit github context list
+orbit github context current
+orbit github context use --account core --owner Aureuma --auth-mode app --base-url https://api.github.com
+orbit github context use --account core --auth-mode oauth --token-env GITHUB_CORE_OAUTH_ACCESS_TOKEN
 ```
 
 ## Git Remotes (No PAT URLs)
 
-Use GitHub App tokens through `si vault` as a Git credential helper, then normalize remotes to PAT-free HTTPS URLs:
+Use Fort-injected GitHub App tokens as a Git credential helper, then normalize remotes to PAT-free HTTPS URLs:
 
 ```bash
-si vault run -- si github git setup --root ~/Development --account core --owner Aureuma
+si fort run --repo si --env dev --keys GITHUB_CORE_OAUTH_ACCESS_TOKEN -- orbit github git setup --root ~/Development --account core --owner Aureuma
 ```
 
 Note:
-- `si vault run` usage here is host/admin-side.
-- In SI runtime containers, use `si fort ...` for secret access paths.
+- `si fort` is the operator-facing secret boundary.
+- Direct `si vault ...` usage is reserved for local SI Vault maintenance.
 
 Optional custom vault scope for helper auth:
 
 ```bash
-si github git setup \
+orbit github git setup \
   --root ~/Development \
   --account core \
   --owner Aureuma \
@@ -73,13 +73,13 @@ si github git setup \
 Common flags:
 - `--remote <name>`: choose a remote other than `origin`
 - `--helper-owner <owner>`: force a fixed owner in helper calls (default derives from remote path)
-- `--no-vault`: use direct env lookup instead of wrapping helper calls with `si vault run`
+- `--no-vault`: use direct env lookup instead of Fort-backed helper calls
 - `--dry-run`: preview remote/helper changes without writing
 
 Helper-only usage (for manual git credential helper wiring):
 
 ```bash
-si github git credential get
+orbit github git credential get
 ```
 
 ## Git Remotes (PAT URLs from Vault)
@@ -87,7 +87,7 @@ si github git credential get
 When you need explicit PAT-authenticated remotes (for CI/dev environments that do not use git credential helpers), use:
 
 ```bash
-si github git remote-auth \
+orbit github git remote-auth \
   --root ~/Development \
   --owner Aureuma \
   --vault-key GH_PAT_AUREUMA_VANGUARDA
@@ -109,7 +109,7 @@ Useful flags:
 To clone a new repository directly with PAT URL auth sourced from vault:
 
 ```bash
-si github git clone-auth Aureuma/GitHubProj \
+orbit github git clone-auth Aureuma/GitHubProj \
   --root ~/Development \
   --vault-key GH_PAT_AUREUMA_VANGUARDA
 ```
@@ -126,53 +126,53 @@ If fetch/push still fails after setup:
 Useful checks:
 
 ```bash
-si github auth status --account core --auth-mode app --json
-si github doctor --account core --owner Aureuma --auth-mode app
-si github git setup --root ~/Development --account core --owner Aureuma --dry-run
+orbit github auth status --account core --auth-mode app --json
+orbit github doctor --account core --owner Aureuma --auth-mode app
+orbit github git setup --root ~/Development --account core --owner Aureuma --dry-run
 ```
 
 ## Repositories
 
 ```bash
-si github repo list Aureuma
-si github repo get Aureuma/si
-si github repo create si-demo --owner Aureuma
-si github repo update Aureuma/si --param description="si substrate"
-si github repo archive Aureuma/si --force
-si github repo delete Aureuma/si-demo --force
+orbit github repo list Aureuma
+orbit github repo get Aureuma/si
+orbit github repo create si-demo --owner Aureuma
+orbit github repo update Aureuma/si --param description="si substrate"
+orbit github repo archive Aureuma/si --force
+orbit github repo delete Aureuma/si-demo --force
 ```
 
 ## Branches and Protection
 
 ```bash
-si github branch list Aureuma/si
-si github branch get Aureuma/si main
-si github branch create Aureuma/si --name feature/release-train --from main
-si github branch delete Aureuma/si feature/release-train --force
+orbit github branch list Aureuma/si
+orbit github branch get Aureuma/si main
+orbit github branch create Aureuma/si --name feature/release-train --from main
+orbit github branch delete Aureuma/si feature/release-train --force
 
-si github branch protect Aureuma/si main --required-check ci --required-check lint --required-approvals 2
-si github branch unprotect Aureuma/si main --force
+orbit github branch protect Aureuma/si main --required-check ci --required-check lint --required-approvals 2
+orbit github branch unprotect Aureuma/si main --force
 ```
 
 ## Pull Requests
 
 ```bash
-si github pr list Aureuma/si
-si github pr get Aureuma/si 123
-si github pr create Aureuma/si --head feature-branch --base main --title "Feature" --body "Summary"
-si github pr comment Aureuma/si 123 --body "Looks good"
-si github pr merge Aureuma/si 123 --method squash
+orbit github pr list Aureuma/si
+orbit github pr get Aureuma/si 123
+orbit github pr create Aureuma/si --head feature-branch --base main --title "Feature" --body "Summary"
+orbit github pr comment Aureuma/si 123 --body "Looks good"
+orbit github pr merge Aureuma/si 123 --method squash
 ```
 
 ## Issues
 
 ```bash
-si github issue list Aureuma/si
-si github issue get Aureuma/si 456
-si github issue create Aureuma/si --title "Bug" --body "Repro"
-si github issue comment Aureuma/si 456 --body "Investigating"
-si github issue close Aureuma/si 456
-si github issue reopen Aureuma/si 456
+orbit github issue list Aureuma/si
+orbit github issue get Aureuma/si 456
+orbit github issue create Aureuma/si --title "Bug" --body "Repro"
+orbit github issue comment Aureuma/si 456 --body "Investigating"
+orbit github issue close Aureuma/si 456
+orbit github issue reopen Aureuma/si 456
 ```
 
 ## Projects (GitHub Projects v2)
@@ -185,27 +185,27 @@ Project reference inputs accepted by project commands:
 - project number (`7`) when org is available from `--owner` or current context owner
 
 ```bash
-si github project list Aureuma
-si github project get Aureuma/7
-si github project update Aureuma/7 --title "Q1 Delivery" --description "Shared roadmap board" --public true
-si github project fields Aureuma/7
-si github project items Aureuma/7 --include-archived
+orbit github project list Aureuma
+orbit github project get Aureuma/7
+orbit github project update Aureuma/7 --title "Q1 Delivery" --description "Shared roadmap board" --public true
+orbit github project fields Aureuma/7
+orbit github project items Aureuma/7 --include-archived
 
 # add an existing issue to project
-si github project item-add Aureuma/7 --repo Aureuma/GHPSandbox --issue 123
+orbit github project item-add Aureuma/7 --repo Aureuma/GHPSandbox --issue 123
 
 # update project item status by field/option names
-si github project item-set Aureuma/7 PVTI_xxx --field Status --single-select "In Progress"
+orbit github project item-set Aureuma/7 PVTI_xxx --field Status --single-select "In Progress"
 
 # update scalar field values
-si github project item-set Aureuma/7 PVTI_xxx --field Estimate --number 3
-si github project item-set Aureuma/7 PVTI_xxx --field DueDate --date 2026-02-28
+orbit github project item-set Aureuma/7 PVTI_xxx --field Estimate --number 3
+orbit github project item-set Aureuma/7 PVTI_xxx --field DueDate --date 2026-02-28
 
 # clear/archive/delete item state
-si github project item-clear Aureuma/7 PVTI_xxx --field Estimate
-si github project item-archive Aureuma/7 PVTI_xxx
-si github project item-unarchive Aureuma/7 PVTI_xxx
-si github project item-delete Aureuma/7 PVTI_xxx
+orbit github project item-clear Aureuma/7 PVTI_xxx --field Estimate
+orbit github project item-archive Aureuma/7 PVTI_xxx
+orbit github project item-unarchive Aureuma/7 PVTI_xxx
+orbit github project item-delete Aureuma/7 PVTI_xxx
 ```
 
 Notes:
@@ -217,54 +217,54 @@ Notes:
 ## Workflows
 
 ```bash
-si github workflow list Aureuma/si
-si github workflow run Aureuma/si ci.yml --ref main --input run_full=true
-si github workflow runs Aureuma/si
-si github workflow run get Aureuma/si 1234567890
-si github workflow run cancel Aureuma/si 1234567890
-si github workflow run rerun Aureuma/si 1234567890
-si github workflow logs Aureuma/si 1234567890 --raw
+orbit github workflow list Aureuma/si
+orbit github workflow run Aureuma/si ci.yml --ref main --input run_full=true
+orbit github workflow runs Aureuma/si
+orbit github workflow run get Aureuma/si 1234567890
+orbit github workflow run cancel Aureuma/si 1234567890
+orbit github workflow run rerun Aureuma/si 1234567890
+orbit github workflow logs Aureuma/si 1234567890 --raw
 ```
 
 ## Releases
 
 ```bash
-si github release list Aureuma/si
-si github release get Aureuma/si v0.44.0
-si github release create Aureuma/si --tag v0.44.0 --title "v0.44.0" --notes-file ./notes.md
-si github release upload Aureuma/si v0.44.0 --asset ./dist/si-linux-amd64
-si github release delete Aureuma/si v0.44.0 --force
+orbit github release list Aureuma/si
+orbit github release get Aureuma/si v0.44.0
+orbit github release create Aureuma/si --tag v0.44.0 --title "v0.44.0" --notes-file ./notes.md
+orbit github release upload Aureuma/si v0.44.0 --asset ./dist/si-linux-amd64
+orbit github release delete Aureuma/si v0.44.0 --force
 ```
 
 ## Secrets
 
-`si github` fetches the target public key, encrypts plaintext with sealed-box compatible encryption, then upserts the secret.
+`orbit github` fetches the target public key, encrypts plaintext with sealed-box compatible encryption, then upserts the secret.
 
 ```bash
-si github secret repo set Aureuma/si MY_SECRET --value "..."
-si github secret repo delete Aureuma/si MY_SECRET --force
+orbit github secret repo set Aureuma/si MY_SECRET --value "..."
+orbit github secret repo delete Aureuma/si MY_SECRET --force
 
-si github secret env set Aureuma/si sandbox MY_SECRET --value "..."
-si github secret env delete Aureuma/si sandbox MY_SECRET --force
+orbit github secret env set Aureuma/si sandbox MY_SECRET --value "..."
+orbit github secret env delete Aureuma/si sandbox MY_SECRET --force
 
-si github secret org set Aureuma MY_SECRET --value "..." --visibility private
-si github secret org set Aureuma MY_SECRET --value "..." --visibility selected --repos 123,456
-si github secret org delete Aureuma MY_SECRET --force
+orbit github secret org set Aureuma MY_SECRET --value "..." --visibility private
+orbit github secret org set Aureuma MY_SECRET --value "..." --visibility selected --repos 123,456
+orbit github secret org delete Aureuma MY_SECRET --force
 ```
 
 ## Raw REST / GraphQL
 
 ```bash
-si github raw --method GET --path /repos/Aureuma/si
-si github raw --method POST --path /repos/Aureuma/si/issues --body '{"title":"Hello"}'
+orbit github raw --method GET --path /repos/Aureuma/si
+orbit github raw --method POST --path /repos/Aureuma/si/issues --body '{"title":"Hello"}'
 
-si github graphql --query 'query { viewer { login } }'
-si github graphql --query 'query($owner:String!,$name:String!){ repository(owner:$owner,name:$name){ id } }' --var owner='"Aureuma"' --var name='"si"'
+orbit github graphql --query 'query { viewer { login } }'
+orbit github graphql --query 'query($owner:String!,$name:String!){ repository(owner:$owner,name:$name){ id } }' --var owner='"Aureuma"' --var name='"si"'
 ```
 
 ## Error Reporting
 
-On failures, `si github` surfaces:
+On failures, `orbit github` surfaces:
 
 - HTTP status
 - request id (`X-GitHub-Request-Id`)

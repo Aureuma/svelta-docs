@@ -84,10 +84,10 @@ Restore last encrypted state:
 si vault restore --env-file .env
 ```
 
-Run commands with decrypted env at runtime:
+Run commands with decrypted env at runtime only for local SI Vault maintenance or implementation debugging:
 
 ```bash
-si vault run --env-file .env --env dev -- go run ./cmd/server
+si vault run --env-file .env --env dev -- printenv
 ```
 
 For SI runtime containers:
@@ -123,5 +123,5 @@ The hook runs `si vault check --staged` and blocks commits if plaintext values a
 - `si vault unset`
 - `si vault get`
 - `si vault list` / `si vault ls`
-- `si vault run`
+- `si vault run` (maintenance-only; prefer `si fort run` for operator workflows)
 - `si vault docker exec`

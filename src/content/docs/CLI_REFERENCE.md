@@ -21,24 +21,21 @@ si <command> <subcommand> --help
 
 | Domain | Commands |
 | --- | --- |
-| Runtime and orchestration | `si dyad`, `si codex` lifecycle (`spawn`, `respawn`, `list`, `shell`, `tail`, `tmux`, `remove`, `run`, `warmup`) |
+| Runtime and orchestration | `si codex`, `si nucleus`, `si viva`, `si surf` |
 | Secrets and context | `si vault` (`si creds`), `si fort` |
-| Integration bridges | `si github`, `si cloudflare`, `si gcp`, `si aws`, `si openai`, `si oci`, `si google`, `si social`, `si workos`, `si apple appstore`, `si stripe`, `si publish`, `si releasemind` (`si release`) |
-| Provider telemetry | `si providers` |
+| Integration bridges | standalone `orbit <provider> ...` CLI for `github`, `cloudflare`, `gcp`, `aws`, `openai`, `oci`, `google`, `workos`, `apple`, and `stripe` |
+| SI image bridge | `si image` |
 | Surf browser runtime | `si surf` |
-| Orbit ecosystem | `si orbits` |
-| Build and quality | `si build`, `si analyze` (`si lint`), `si docker` |
-| Docs workflow | `si mintlify` |
-| Profiles and skills | `si persona`, `si skill` |
+| Build and quality | `si build`, `si doctor`, `si commands`, `si settings` |
 
 ## High-signal workflows
 
 ### Runtime setup
 
 ```bash
-si build image
-si dyad spawn app-hardening --profile main
-si dyad status app-hardening
+si doctor
+si commands
+si settings
 ```
 
 ### Codex multi-slot runtime
@@ -65,10 +62,10 @@ si viva -- tunnel down --profile dev
 ### Integration readiness
 
 ```bash
-si providers characteristics --json
-si github doctor --json
-si cloudflare doctor --json
-si gcp doctor --json
+orbit list --json
+orbit github doctor --json
+orbit cloudflare doctor --json
+orbit gcp doctor --json
 ```
 
 ### Fort runtime secret check
@@ -81,8 +78,7 @@ si fort get --repo releasemind --env dev --key RM_OPENAI_API_KEY
 ### Docs quality
 
 ```bash
-si mintlify validate
-si mintlify broken-links
+corepack pnpm check
 ```
 
 ### Release preflight
@@ -93,8 +89,8 @@ si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-prefl
 
 ## Safety guidance
 
-- On host/admin flows, use `si vault run -- <command>` when secrets are required.
-- In SI runtime containers, use `si fort ...` for secret access.
+- Use `si fort ...` for operator secret access and credential injection.
+- Keep `si vault ...` for local SI Vault maintenance and implementation debugging.
 - `si fort` wrapper bootstrap/admin auth resolves from `FORT_BOOTSTRAP_TOKEN_FILE`; runtime sessions use the managed Codex profile `CODEX_HOME/fort/` token files.
 - If a flag belongs to the native `fort` CLI, pass it after `--` (example: `si fort -- --host https://fort.aureuma.ai doctor`).
 - Prefer `--json` for automation and auditability.

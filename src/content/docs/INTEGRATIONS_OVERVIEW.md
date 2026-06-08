@@ -7,51 +7,43 @@ description: Complete map of SI integration families, capabilities, and command 
 
 ![SI Integrations](/docs/images/integrations/integrations-overview.svg)
 
-This page is the canonical map of SI integration families.
+This page is the canonical map of current SI-adjacent integration families.
 
 ## Command families
 
 | Integration | Primary command | Guide |
 | --- | --- | --- |
-| GitHub | `si github ...` | [GitHub](./GITHUB) |
-| Cloudflare | `si cloudflare ...` | [Cloudflare](./CLOUDFLARE) |
-| Stripe | `si stripe ...` | [Stripe](./STRIPE) |
-| Google Cloud (Gemini/Vertex/Service Usage) | `si gcp ...` | [GCP](./GCP) |
-| Google Places | `si google places ...` | [Google Places](./GOOGLE_PLACES) |
-| Google Play | `si google play ...` | [Google Play](./GOOGLE_PLAY) |
-| YouTube | `si google youtube ...` | [Google YouTube](./GOOGLE_YOUTUBE) |
-| Social (Facebook/Instagram/X/LinkedIn/Reddit) | `si social ...` | [Social](./SOCIAL) |
-| AWS | `si aws ...` | [AWS](./AWS) |
-| OpenAI | `si openai ...` | [OpenAI](./OPENAI) |
-| Oracle Cloud Infrastructure | `si oci ...` | [OCI](./OCI) |
-| WorkOS | `si workos ...` | [WorkOS](./WORKOS) |
-| Apple App Store | `si apple appstore ...` | [Apple App Store](./APPLE_APPSTORE) |
-| Publish bridge | `si publish ...` | [Publish](./PUBLISH) |
-| Provider meta-health | `si providers ...` | [Providers](./PROVIDERS) |
+| GitHub | `orbit github ...` | [GitHub](./GITHUB) |
+| Cloudflare | `orbit cloudflare ...` | [Cloudflare](./CLOUDFLARE) |
+| Stripe | `orbit stripe ...` | [Stripe](./STRIPE) |
+| Google Cloud (Gemini/Vertex/Service Usage) | `orbit gcp ...` | [GCP](./GCP) |
+| Google Places / Play / YouTube | `orbit google ...` | [Google Places](./GOOGLE_PLACES) |
+| AWS | `orbit aws ...` | [AWS](./AWS) |
+| OpenAI | `orbit openai ...` | [OpenAI](./OPENAI) |
+| Oracle Cloud Infrastructure | `orbit oci ...` | [OCI](./OCI) |
+| WorkOS | `orbit workos ...` | [WorkOS](./WORKOS) |
+| Apple App Store | `orbit apple ...` | [Apple App Store](./APPLE_APPSTORE) |
 | Surf browser runtime | `si surf ...` | [Browser Runtime](./BROWSER) |
-| Orbitals | `si orbits ...` | [Orbitals](./ORBITALS) |
 
 ## Integration capability matrix
 
 | Integration | Auth diagnostics | Context selection | Structured resources | Raw API mode | Doctor/health path |
 | --- | --- | --- | --- | --- | --- |
-| GitHub | Yes | Yes | Yes | Yes | `si github doctor` |
-| Cloudflare | Yes | Yes | Yes | Yes | `si cloudflare doctor` |
-| Stripe | Yes | Yes | Yes | Yes | `si stripe auth status` |
-| GCP | Yes | Yes | Yes | Yes | `si gcp doctor` |
-| Google Places | Yes | via `si google` | Yes | Yes | provider health + auth |
-| Google Play | Yes | via `si google` | Yes | Yes | auth + release checks |
-| YouTube | Yes | via `si google` | Yes | Yes | auth + upload checks |
-| Social | Yes | Yes | Yes | Yes | platform auth status |
-| AWS | Yes | Yes | Yes | Yes | `si aws doctor` |
-| OpenAI | Yes | Yes | Yes | Yes | `si openai doctor` |
-| OCI | Yes | Yes | Yes | Yes | `si oci doctor` |
-| WorkOS | Yes | Yes | Yes | Yes | `si workos doctor` |
+| GitHub | Yes | Yes | Yes | Yes | `orbit github doctor` |
+| Cloudflare | Yes | Yes | Yes | Yes | `orbit cloudflare doctor` |
+| Stripe | Yes | Yes | Yes | Yes | `orbit stripe auth status` |
+| GCP | Yes | Yes | Yes | Yes | `orbit gcp doctor` |
+| Google Places | Yes | via `orbit google` | Yes | Yes | provider health + auth |
+| Google Play | Yes | via `orbit google` | Yes | Yes | auth + release checks |
+| YouTube | Yes | via `orbit google` | Yes | Yes | auth + upload checks |
+| Social | Planned/catalog-only | Planned/catalog-only | Planned/catalog-only | Planned/catalog-only | No current SI command |
+| AWS | Yes | Yes | Yes | Yes | `orbit aws doctor` |
+| OpenAI | Yes | Yes | Yes | Yes | `orbit openai doctor` |
+| OCI | Yes | Yes | Yes | Yes | `orbit oci doctor` |
+| WorkOS | Yes | Yes | Yes | Yes | `orbit workos doctor` |
 | Apple App Store | Yes | Yes | Yes | Yes | auth + API checks |
-| Publish | N/A (depends on target) | target-specific | Curated publishing flows | N/A | pre-publish checks |
-| Providers | N/A | N/A | Aggregated telemetry | N/A | `si providers health` |
+| Publish | Planned/catalog-only | Planned/catalog-only | Planned/catalog-only | Planned/catalog-only | No current SI command |
 | Surf runtime | runtime status | runtime profile dir | browser actions through MCP | N/A | `si surf status` |
-| Orbitals | policy + install diagnostics | N/A | catalog/install records | N/A | `si orbits doctor` |
 
 ## Integration visuals
 
@@ -66,10 +58,7 @@ This page is the canonical map of SI integration families.
 | OCI | ![OCI](/docs/images/integrations/oci.svg) |
 | WorkOS | ![WorkOS](/docs/images/integrations/workos.svg) |
 | Apple App Store | ![Apple App Store](/docs/images/integrations/apple-appstore.svg) |
-| Publish | ![Publish](/docs/images/integrations/publish.svg) |
-| Providers | ![Providers](/docs/images/integrations/providers.svg) |
 | Surf runtime | ![Browser](/docs/images/integrations/browser.svg) |
-| Orbitals | ![Orbitals](/docs/images/integrations/orbits.svg) |
 
 ## Operator checklist before production writes
 
@@ -77,7 +66,7 @@ This page is the canonical map of SI integration families.
 2. Confirm context/account/environment target.
 3. Run integration doctor/health command where available.
 4. Use `--json` mode for auditable outputs in automation.
-5. For host/admin flows, prefer `si vault run -- <cmd>` when injecting secrets. For SI runtime containers, use `si fort ...`.
+5. Use `si fort ...` when injecting secrets. Treat direct `si vault ...` as local maintenance.
 
 ## Related pages
 
