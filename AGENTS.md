@@ -1,11 +1,6 @@
 # Repo Rules
 
 - Follow the shared workspace rules in `/home/shawn/Development/AGENTS.md`.
-- Keep every `tickets/` directory and all files beneath it ignored by Git. Do not add, force-add, or commit ticket files to version control.
-
-## Secrets And Credentials
-
-- `si fort` is the canonical interface for secret and credential management for this repo. Use raw `si vault` only for explicit Fort/SI Vault maintenance or required local encryption work under the shared workspace rules.
 
 ## Version Source Of Truth
 
@@ -13,24 +8,3 @@
 - The canonical hard-coded version source is the root `package.json`.
 - `packages/core/package.json` must not carry its own independently maintained version line while the core package remains an internal private workspace package.
 - Every commit that changes tracked content in this repo must bump the patch version in the root `package.json` in the same commit.
-
-### File Names And Paths
-
-- Name new files with stable, descriptive kebab-case unless the repo already has a stricter local convention; keep Viva deploy surfaces predictable with `deploy/viva.<env>.yaml`, `deploy/viva.<component>.<env>.yaml`, and `docker-compose.viva.<env>.yml`.
-- Keep file paths predictable and reviewable: avoid unrelated renames, generated churn, and mixed concerns; when moving or renaming files, update all references in the same change.
-
-## Plans And Inbox
-- `plans/` stores plan documents.
-- `inbox/` stores append-only planner/coder communication files.
-- For each plan file under `plans/`, keep a matching `.jsonl` file under `inbox/` with a similar path/name.
-- Each message entry should include a `role` (`planner` or `coder`) and stay compact and complete.
-
-
-## Node Package Manager
-- For Node-based workspaces in this repository, the preferred package manager is `pnpm` (use `corepack pnpm ...` by default).
-
-## Message Readability
-- Emojify reports/messages where it improves readability, using relevant emojis only.
-
-## Implementation Language
-- Use Rust as much as possible, and write everything in Rust whenever practical. Avoid shell scripts unless absolutely necessary. For web-based work, or anything that requires a web interface, use SvelteKit/Svelte with TypeScript or JavaScript when it cannot be handled cleanly in Rust.
