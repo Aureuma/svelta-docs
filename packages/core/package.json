@@ -52,7 +52,7 @@
     "tailwind"
   ],
   "scripts": {
-    "build": "svelte-package --tsconfig ./tsconfig.json",
+    "build": "../../scripts/build-guard.sh svelte-package --tsconfig ./tsconfig.json",
     "prepack": "pnpm run build"
   },
   "peerDependencies": {
