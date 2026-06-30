@@ -100,4 +100,4 @@ jobs:
       - name: End-to-end tests
         run: |
           corepack pnpm run test:guard
-          corepack pnpm exec playwright test --project=${{ matrix.project }}
+          corepack pnpm exec playwright test --project=${{ matrix.project }} --workers=2
