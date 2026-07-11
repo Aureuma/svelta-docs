@@ -38,4 +38,3 @@ vite.config.ts.timestamp-*
 plans/
 package-lock.json
 
-inbox/
