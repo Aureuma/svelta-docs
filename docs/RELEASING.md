@@ -47,7 +47,7 @@ pnpm whoami
 ```
 - Ensure CI is green on `main`.
 - Ensure you can push tags and create GitHub releases.
-- Ensure you have SI Vault access if you may need the local fallback publish path.
+- Ensure you have `vault` keyring access if you may need the local fallback publish path.
 
 Recommended registry permission check:
 

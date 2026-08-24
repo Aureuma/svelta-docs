@@ -29,7 +29,7 @@ Thumbs.db
 !.env.test
 .env.dev
 .env.prod
-.si-vault-restore/
+.vault-restore/
 
 # Vite
 vite.config.js.timestamp-*
