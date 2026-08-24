@@ -21,8 +21,9 @@ repository and ships as a standalone `vault` binary:
 | `~/.si/vault/si-vault-keyring.json` | `~/.vault/keyring.json` |
 | `SI_VAULT_KEYRING_FILE` | `VAULT_KEYRING_FILE` |
 
-Existing files in the legacy format are still readable; `vault migrate`
-relabels them in place without re-encrypting.
+Legacy-format files are **refused**, not read; `vault migrate` relabels them
+in place (without re-encrypting) and is the only code that understands the
+old labels.
 
 ## What stayed in `si`
 
