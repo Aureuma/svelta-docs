@@ -351,11 +351,11 @@ Local OAuth token cache for `orbit google youtube auth login` is stored at:
 - `~/.si/google/youtube/oauth_tokens.json`
 
 ### `[vault]`
-Defaults for `si vault`.
+Defaults for `vault`.
 - `vault.file` (string): default dotenv file used when `--env-file`/`--file` is not provided (default: `.env`)
 - `vault.trust_store` (string): optional trust store path for recipient fingerprint checks
 - `vault.audit_log` (string): optional local JSONL audit sink (empty by default)
-- `vault.key_backend` (string): key backend for SI Vault identity material (`keyring`/`file`)
+- `vault.key_backend` (string): key backend for Vault identity material (`keyring`/`file`)
 - `vault.key_file` (string): key file path when `vault.key_backend=\"file\"`
 - `vault.sync_backend` (string): Fort-only mode; only `fort` is accepted.
 
@@ -380,9 +380,9 @@ Per-profile Cloudflare tunnel runtime settings consumed by `viva tunnel`.
 - `no_autoupdate` (bool): pass `--no-autoupdate`.
 - `pull_image` (bool): pull image before run.
 - `runtime_dir` (string): host runtime directory for generated files.
-- `vault_env_file` (string): encrypted dotenv file path used by `si vault`.
-- `vault_repo` (string): repo argument passed to `si vault` (default: `viva`).
-- `vault_env` (string): env argument passed to `si vault` (default: `dev`).
+- `vault_env_file` (string): encrypted dotenv file path used by `vault`.
+- `vault_repo` (string): repo argument passed to `vault` (default: `viva`).
+- `vault_env` (string): env argument passed to `vault` (default: `dev`).
 
 ##### `[[viva.tunnel.profiles.<name>.routes]]`
 - `hostname` (string, optional): ingress hostname.

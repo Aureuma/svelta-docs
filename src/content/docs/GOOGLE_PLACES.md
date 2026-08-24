@@ -10,7 +10,7 @@ Related:
 
 Auth policy:
 - API key only (Places API New web service usage).
-- Credentials should be injected from `si vault` (or compatible env keys).
+- Credentials should be injected from `vault` (or compatible env keys).
 - Settings should store env references/pointers, not raw keys.
 
 ## Credential Keys (Vault-Compatible)

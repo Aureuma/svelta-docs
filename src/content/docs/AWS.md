@@ -31,7 +31,7 @@ orbit aws doctor --account core --region us-east-1 --public --json
 ```
 
 For automation, use `si fort run --repo <repo> --env <env> --keys <KEYS> -- <cmd>` when injecting sensitive env values.
-Keep direct `si vault ...` usage for local SI Vault maintenance.
+Keep direct `vault ...` usage for local Vault maintenance.
 
 ## Core operations
 

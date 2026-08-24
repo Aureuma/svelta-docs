@@ -47,7 +47,7 @@ corepack pnpm whoami
 ```
 - Ensure CI is green on `main`.
 - Ensure you can push tags and create GitHub releases.
-- Ensure you have SI Vault access if you may need the local fallback publish path.
+- Ensure you have Vault access if you may need the local fallback publish path.
 
 Recommended registry permission check:
 
@@ -106,7 +106,7 @@ gh workflow run "Publish NPM" --ref main -f tag=vX.Y.0
 corepack pnpm view @aureuma/svelta-docs version
 ```
 
-Fallback local path using SI Vault:
+Fallback local path using Vault:
 
 ```bash
 tools/release/npm/publish-package-from-vault.sh --version vX.Y.0

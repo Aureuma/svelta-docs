@@ -66,12 +66,12 @@ This page is the canonical map of current SI-adjacent integration families.
 2. Confirm context/account/environment target.
 3. Run integration doctor/health command where available.
 4. Use `--json` mode for auditable outputs in automation.
-5. Use `si fort ...` when injecting secrets. Treat direct `si vault ...` as local maintenance.
+5. Use `si fort ...` when injecting secrets. Treat direct `vault ...` as local maintenance.
 
 ## Related pages
 
 - [CLI Reference](./CLI_REFERENCE)
 - [Settings](./SETTINGS)
-- [Vault](./VAULT) for SI Vault maintenance
+- [Vault](./VAULT) for Vault maintenance
 - [Orbitals](./ORBITALS)
 - [Documentation Style Guide](./DOCS_STYLE_GUIDE)

@@ -98,7 +98,7 @@ done
 require_cmd corepack
 require_cmd bash
 require_cmd "${repo_root}/tools/release/npm/publish-package-package.sh"
-require_cmd /home/shawn/Development/si/si
+require_cmd "${SI_BIN:-si}"
 if [[ -n "${env_file}" ]]; then
   echo "warning: --env-file is ignored; Fort repo/env selection is used instead" >&2
 fi
@@ -111,7 +111,7 @@ if [[ "${dry_run}" -eq 1 ]]; then
   cmd+=(--dry-run)
 fi
 
-/home/shawn/Development/si/si fort run --repo "${fort_repo}" --env "${fort_env}" --mode env --keys "${token_key}" -- \
+"${SI_BIN:-si}" fort run --repo "${fort_repo}" --env "${fort_env}" --mode env --keys "${token_key}" -- \
   bash -c '
     set -euo pipefail
     token_key="$1"

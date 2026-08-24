@@ -22,7 +22,7 @@ si <command> <subcommand> --help
 | Domain | Commands |
 | --- | --- |
 | Runtime and orchestration | `si codex`, `si nucleus`, `si viva`, `si surf` |
-| Secrets and context | `si vault` (`si creds`), `si fort` |
+| Secrets and context | `vault` (`si creds`), `si fort` |
 | Integration bridges | standalone `orbit <provider> ...` CLI for `github`, `cloudflare`, `gcp`, `aws`, `openai`, `oci`, `google`, `workos`, `apple`, and `stripe` |
 | SI image bridge | `si image` |
 | Surf browser runtime | `si surf` |
@@ -90,7 +90,7 @@ si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-prefl
 ## Safety guidance
 
 - Use `si fort ...` for operator secret access and credential injection.
-- Keep `si vault ...` for local SI Vault maintenance and implementation debugging.
+- Keep `vault ...` for local Vault maintenance and implementation debugging.
 - `si fort` wrapper bootstrap/admin auth resolves from `FORT_BOOTSTRAP_TOKEN_FILE`; runtime sessions use the managed Codex profile `CODEX_HOME/fort/` token files.
 - If a flag belongs to the native `fort` CLI, pass it after `--` (example: `si fort -- --host https://fort.aureuma.ai doctor`).
 - Prefer `--json` for automation and auditability.

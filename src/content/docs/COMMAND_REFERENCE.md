@@ -20,7 +20,7 @@ si <command> <subcommand> --help
 | Command family | Primary purpose | Major subcommands | Detailed guide |
 | --- | --- | --- | --- |
 | `si codex` lifecycle | Manage codex profile workers, slots, and one-off runs | `spawn`, `respawn`, `list`, `shell`, `tail`, `tmux`, `remove`, `run`, `warmup` | [CLI Reference](./CLI_REFERENCE) |
-| `si vault` (`si creds`) | SI Vault local maintenance | `keypair`, `status`, `check`, `hooks`, `encrypt`, `decrypt`, `restore`, `set`, `unset`, `get`, `list`, `run`, `docker exec` | [Vault](./VAULT) |
+| `vault` (`si creds`) | Vault local maintenance | `keypair`, `status`, `check`, `hooks`, `encrypt`, `decrypt`, `restore`, `set`, `unset`, `get`, `list`, `run`, `docker exec` | [Vault](./VAULT) |
 | `si fort` | Wrapper for hosted Fort policy/auth API (runtime secret access path) | `doctor`, `auth`, `get`, `set`, `list`, `batch-get`, `run`, `agent`, `config show`, `config set` | [Vault](./VAULT) |
 | `si surf` | Dockerized Playwright MCP runtime | `build`, `start`, `status`, `logs`, `proxy` | [Browser](./BROWSER) |
 | `si viva` | Viva wrapper | native Viva commands after wrapper options | [CLI Reference](./CLI_REFERENCE) |
@@ -59,7 +59,7 @@ si <command> <subcommand> --help
 
 ```bash
 si build self
-si vault status
+vault status
 si --help
 si mintlify validate
 ```
@@ -90,7 +90,7 @@ si build self release-assets --version vX.Y.Z --out-dir .artifacts/release-prefl
 ## Guardrails
 
 - Prefer `si fort ...` when a command needs secrets.
-- Keep `si vault ...` for local SI Vault maintenance and implementation debugging.
+- Keep `vault ...` for local Vault maintenance and implementation debugging.
 - `si fort` bootstrap/admin auth uses `FORT_BOOTSTRAP_TOKEN_FILE`; runtime auth uses managed Codex profile `CODEX_HOME/fort/` token files.
 - Pass native `fort` flags after `--` when invoking through wrapper.
 - Run integration-specific `doctor` commands before write operations.

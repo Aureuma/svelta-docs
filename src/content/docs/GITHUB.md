@@ -58,7 +58,7 @@ si fort run --repo si --env dev --keys GITHUB_CORE_OAUTH_ACCESS_TOKEN -- orbit g
 
 Note:
 - `si fort` is the operator-facing secret boundary.
-- Direct `si vault ...` usage is reserved for local SI Vault maintenance.
+- Direct `vault ...` usage is reserved for local Vault maintenance.
 
 Optional custom helper scope:
 
